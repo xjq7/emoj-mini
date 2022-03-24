@@ -4,7 +4,7 @@
   "description": "emoj",
   "appid": "wxbdc8768378823f14",
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": false,
     "enhance": true,
     "postcss": false,

@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import { View, Button, Text } from '@tarojs/components';
 import { observer, inject } from 'mobx-react';
+import { Tabs } from '@taroify/core';
+import EmojItem from '@components/EmojItem';
 
 import './index.scss';
 
@@ -23,27 +26,19 @@ const Index = inject('store')(
     const {
       counterStore: { counter },
     } = props.store;
-    const increment = () => {
-      const { counterStore } = props.store;
-      counterStore.increment();
-    };
 
-    const decrement = () => {
-      const { counterStore } = props.store;
-      counterStore.decrement();
-    };
-
-    const incrementAsync = () => {
-      const { counterStore } = props.store;
-      counterStore.incrementAsync();
-    };
+    const [currentTab, setCurrentTab] = useState(0);
 
     return (
       <View className="index">
-        <Button onClick={increment}>+</Button>
-        <Button onClick={decrement}>-</Button>
-        <Button onClick={incrementAsync}>Add Async</Button>
-        <Text>{counter}</Text>
+        <Tabs value={currentTab} onChange={setCurrentTab}>
+          <Tabs.TabPane title="热门" value={0}>
+            <EmojItem />
+          </Tabs.TabPane>
+          <Tabs.TabPane title="最新" value={1}>
+            内容 2
+          </Tabs.TabPane>
+        </Tabs>
       </View>
     );
   }),
