@@ -1,0 +1,43 @@
+@import '../../utils/theme.scss';
+.item {
+  width: 236px;
+  padding: 10px 0;
+  margin: 10px 0 0 10px;
+  border-radius: 10px;
+  background-color: white;
+  .img {
+    width: 236px;
+    height: 236px;
+  }
+  .data_wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    .like {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .like_icon {
+        margin-top: 4px;
+        color: $Primary;
+      }
+      .like_label {
+        font-size: 28px;
+        margin-left: 5px;
+      }
+    }
+    .visit {
+      margin-left: 30px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .visit_icon {
+        color: $Primary;
+      }
+      .visit_label {
+        font-size: 28px;
+        margin-left: 5px;
+      }
+    }
+  }
+}
