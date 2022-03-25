@@ -1,12 +1,14 @@
+import Taro from '@tarojs/taro';
 import { Provider } from 'mobx-react';
 import { useEffect } from 'react';
-import Taro from '@tarojs/taro';
 import counterStore from './store/counter';
+import userStore from './store/user';
 
 import './app.scss';
 
 const store = {
   counterStore,
+  userStore,
 };
 
 function App(props) {

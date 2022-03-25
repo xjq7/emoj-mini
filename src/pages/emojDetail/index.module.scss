@@ -1,0 +1,29 @@
+@import '../../utils/theme.scss';
+
+.container {
+  background-color: $PageBg;
+  width: 100%;
+  height: 100vh;
+  .header {
+    width: 750px;
+    padding: 20px 10px;
+    position: fixed;
+    z-index: 999;
+    background-color: $White;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .logo {
+      width: 300px;
+      height: 300px;
+      border-radius: 10px;
+    }
+  }
+
+  .like_icon {
+    color: $Primary;
+  }
+  .eye_icon {
+    color: $Primary;
+  }
+}

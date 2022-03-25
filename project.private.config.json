@@ -1,0 +1,28 @@
+{
+    "condition": {
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "",
+                    "pathName": "pages/emojDetail/index",
+                    "query": "id=47492",
+                    "scene": null,
+                    "launchMode": "default",
+                    "partialCompile": {
+                        "enabled": true,
+                        "pages": []
+                    }
+                }
+            ]
+        }
+    }
+}

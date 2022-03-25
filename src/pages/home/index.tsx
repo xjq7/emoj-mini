@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
 import { View, Text } from '@tarojs/components';
+import Taro, { useReachBottom } from '@tarojs/taro';
+import { useEffect, useState } from 'react';
 import { observer, inject } from 'mobx-react';
 import { Tabs } from '@taroify/core';
-import { useReachBottom } from '@tarojs/taro';
 import request from '@utils/request';
 import EmojList from '@components/EmojList';
-
+import themeMap from '@utils/theme';
 import styles from './index.module.scss';
 
 type PageStateProps = {
@@ -62,7 +62,12 @@ const Index = inject('store')(
             setHasMore(false);
           }
           setPageInfo(resPageInfo);
-          setList(list.concat(data));
+          if (page === 1) {
+            Taro.pageScrollTo({ scrollTop: 0 });
+            setList(data);
+          } else {
+            setList(list.concat(data));
+          }
         })
         .finally(() => {
           setLoading(false);
@@ -78,24 +83,45 @@ const Index = inject('store')(
     });
 
     useEffect(() => {
-      setList([]);
       fetchList();
     }, [currentTab]);
 
-    const onTabChange = (tab) => {
-      setCurrentTab(tab);
-    };
-
     return (
       <View className={styles.container}>
-        <Tabs className="tabs" value={currentTab} onChange={onTabChange} sticky>
-          <Tabs.TabPane title="热门" value={Tab.hot}>
-            <EmojList dataSource={list} hasMore={hasMore} />
-          </Tabs.TabPane>
-          <Tabs.TabPane title="最新" value={Tab.new}>
-            <EmojList dataSource={list} hasMore={hasMore} />
-          </Tabs.TabPane>
-        </Tabs>
+        <View className={styles.tabs}>
+          <View className={styles.tab}>
+            <Text
+              className={styles.label}
+              style={{ borderColor: currentTab === Tab.hot ? themeMap.$Primary : themeMap.$White }}
+              onClick={() => {
+                setCurrentTab(Tab.hot);
+              }}
+            >
+              热门
+            </Text>
+          </View>
+          <View className={styles.tab}>
+            <Text
+              className={styles.label}
+              style={{ borderColor: currentTab === Tab.new ? themeMap.$Primary : themeMap.$White }}
+              onClick={() => {
+                setCurrentTab(Tab.new);
+              }}
+            >
+              最新
+            </Text>
+          </View>
+        </View>
+        <View style={{ height: 56 }} />
+        <EmojList
+          dataSource={list}
+          hasMore={hasMore}
+          onPress={({ id }) => {
+            Taro.navigateTo({
+              url: '/pages/emojDetail/index?id=' + id,
+            });
+          }}
+        />
       </View>
     );
   }),

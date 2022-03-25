@@ -1,22 +1,13 @@
-import Taro from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
 import { Image } from '@taroify/core';
 import { Like, Eye } from '@taroify/icons';
-
 import styles from './index.module.scss';
 
 const Component = (props) => {
-  const { id, url, like, visit } = props;
+  const { id, url, like, visit, onPress = () => {} } = props;
 
   return (
-    <View
-      className={styles.item}
-      onClick={() => {
-        Taro.navigateTo({
-          url: '/pages/emojDetail/index?id=' + id,
-        });
-      }}
-    >
+    <View className={styles.item} onClick={() => onPress({ id })}>
       <Image className={styles.img} mode="aspectFit" src={url} />
       <View className={styles.data_wrap}>
         <View className={styles.like}>
