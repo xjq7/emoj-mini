@@ -9,14 +9,7 @@ import themeMap from '@utils/theme';
 import styles from './index.module.scss';
 
 type PageStateProps = {
-  store: {
-    counterStore: {
-      counter: number;
-      increment: Function;
-      decrement: Function;
-      incrementAsync: Function;
-    };
-  };
+  store: {};
 };
 
 interface Index {
@@ -32,12 +25,8 @@ const initPageInfo = { page: 1, pageSize: 18, total: 0 };
 
 const Index = inject('store')(
   observer((props) => {
-    const {
-      counterStore: { counter },
-    } = props.store;
-
     const [list, setList] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] = useState(false);
     const [pageInfo, setPageInfo] = useState(initPageInfo);
 
@@ -114,6 +103,7 @@ const Index = inject('store')(
         </View>
         <View style={{ height: 56 }} />
         <EmojList
+          loading={loading}
           dataSource={list}
           hasMore={hasMore}
           onPress={({ id }) => {

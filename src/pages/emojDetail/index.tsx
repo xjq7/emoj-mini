@@ -1,8 +1,7 @@
-import { useRouter } from '@tarojs/taro';
+import Taro, { useReachBottom, useRouter } from '@tarojs/taro';
 import { View } from '@tarojs/components';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Image, Button } from '@taroify/core';
-import { LikeOutlined, EyeOutlined } from '@taroify/icons';
 import { inject, observer } from 'mobx-react';
 import request from '@utils/request';
 import EmojList from '@components/EmojList';
@@ -12,41 +11,70 @@ const Component = inject('store')(
   observer((props) => {
     const { store } = props;
     const { userStore } = store;
-    console.log(userStore);
 
     const router = useRouter();
     const { params } = router;
 
     const id = Number(params.id);
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [list, setList] = useState([]);
     const [detail, setDetail] = useState();
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
 
     const { url } = detail || { url: '' };
-    console.log(detail);
+
+    const groupId = useMemo(() => (detail || ({} as any)).group_id, [detail]);
 
     const fetchDetail = async (data) => {
       setLoading(true);
-      return request({
-        url: '/emoj/detail',
-        method: 'POST',
-        data,
-      })
-        .then((res: any) => {
-          const { emoj_list } = res;
-          console.log(emoj_list);
-
-          setList(emoj_list);
-          setDetail(emoj_list.find((o) => o.id === id));
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      try {
+        const { emoj_info } = (await request({
+          url: '/emoj/detail',
+          method: 'POST',
+          data,
+        })) as any;
+        setDetail(emoj_info);
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
     };
 
     useEffect(() => {
-      fetchDetail({ id, user_id: 1 });
+      fetchList(1);
+    }, [groupId]);
+
+    const fetchList = async (page: number) => {
+      if (!groupId) return;
+
+      const res: any = await request({
+        url: '/emoj/list-by-groupId',
+        method: 'GET',
+        data: {
+          id: groupId,
+          page: page,
+          pageSize: 12,
+        },
+      });
+      if (page === 1) {
+        setList(res.list || []);
+      } else {
+        setList(list.concat(res.list || []));
+      }
+      setPage(res.page || 1);
+      setHasMore(res.page * res.pageSize < res.total);
+    };
+
+    useReachBottom(() => {
+      if (hasMore) {
+        fetchList(page + 1);
+      }
+    });
+
+    useEffect(() => {
+      fetchDetail({ id });
     }, [id]);
 
     return (
@@ -57,29 +85,24 @@ const Component = inject('store')(
             <Button
               color="danger"
               size="small"
-              onClick={async () => {
-                // Toast.show({ type: 'info', text1: '还在写...' });
+              onClick={() => {
+                Taro.downloadFile({
+                  url: url,
+                  success: (res) => {
+                    Taro.showShareImageMenu({
+                      path: res.tempFilePath,
+                    });
+                  },
+                });
               }}
             >
-              发送微信
+              转发好友
             </Button>
-            <Button
-              color="danger"
-              size="small"
-              onClick={async () => {
-                // Toast.show({ type: 'info', text1: '还在写...' });
-              }}
-            >
-              下载
-            </Button>
-            <View>
-              <LikeOutlined size={25} className={styles.like_icon} />
-              <EyeOutlined size={30} className={styles.eye_icon} />
-            </View>
+            {/* <LikeOutlined size={25} className={styles.like_icon} /> */}
           </View>
         </View>
         <View style={{ height: 180 }} />
-        <EmojList dataSource={list} hasMore={false} />
+        <EmojList dataSource={list} loading={loading} hasMore={false} />
       </View>
     );
   }),
