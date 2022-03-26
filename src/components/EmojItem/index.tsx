@@ -7,7 +7,7 @@ const Component = (props) => {
   const { id, url, like, visit, onPress = () => {} } = props;
 
   return (
-    <View className={styles.item} onClick={() => onPress({ id })}>
+    <View className={styles.item} onClick={() => onPress(props)}>
       <Image className={styles.img} mode="aspectFit" src={url} />
       <View className={styles.data_wrap}>
         <View className={styles.like}>

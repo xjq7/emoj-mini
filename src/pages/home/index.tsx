@@ -1,5 +1,5 @@
 import { View, Text } from '@tarojs/components';
-import Taro, { useReachBottom } from '@tarojs/taro';
+import Taro, { usePullDownRefresh, useReachBottom } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 import { observer, inject } from 'mobx-react';
 import request from '@utils/request';
@@ -68,6 +68,10 @@ const Index = inject('store')(
 
     useReachBottom(() => {
       fetchList(pageInfo.page + 1, pageInfo.pageSize);
+    });
+
+    usePullDownRefresh(() => {
+      fetchList(1);
     });
 
     useEffect(() => {

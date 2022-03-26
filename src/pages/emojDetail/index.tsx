@@ -99,7 +99,14 @@ const Component = inject('store')(
           </View>
         </View>
         <View style={{ height: 180 }} />
-        <EmojList dataSource={list} loading={loading} hasMore={false} />
+        <EmojList
+          dataSource={list}
+          loading={loading}
+          hasMore={false}
+          onPress={(item) => {
+            setDetail(item);
+          }}
+        />
       </View>
     );
   }),
