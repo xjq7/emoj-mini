@@ -1,13 +1,13 @@
-import { Cell, Input, Form, Button } from '@taroify/core';
 import { BaseEventOrig, FormProps, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import { Cell, Input, Form, Button } from '@taroify/core';
 import request from '@utils/request';
 
 const Component = () => {
   const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
     const { phone, password } = event.detail.value || {};
     request({
-      url: '/auth/login', //仅为示例，并非真实的接口地址
+      url: '/auth/login',
       method: 'POST',
       data: {
         phone,

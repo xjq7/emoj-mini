@@ -9,9 +9,6 @@ import styles from './index.module.scss';
 
 const Component = inject('store')(
   observer((props) => {
-    const { store } = props;
-    const { userStore } = store;
-
     const router = useRouter();
     const { params } = router;
 
@@ -30,12 +27,12 @@ const Component = inject('store')(
     const fetchDetail = async (data) => {
       setLoading(true);
       try {
-        const { emoj_info } = (await request({
-          url: '/emoj/detail',
-          method: 'POST',
+        const emojInfo = (await request({
+          url: '/emoj',
+          method: 'GET',
           data,
         })) as any;
-        setDetail(emoj_info);
+        setDetail(emojInfo);
       } catch (error) {
       } finally {
         setLoading(false);
@@ -50,10 +47,10 @@ const Component = inject('store')(
       if (!groupId) return;
 
       const res: any = await request({
-        url: '/emoj/list-by-groupId',
+        url: '/emoj/list',
         method: 'GET',
         data: {
-          id: groupId,
+          group_id: groupId,
           page: page,
           pageSize: 12,
         },

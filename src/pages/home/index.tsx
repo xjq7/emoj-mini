@@ -2,7 +2,6 @@ import { View, Text } from '@tarojs/components';
 import Taro, { useReachBottom } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 import { observer, inject } from 'mobx-react';
-import { Tabs } from '@taroify/core';
 import request from '@utils/request';
 import EmojList from '@components/EmojList';
 import themeMap from '@utils/theme';
@@ -36,7 +35,7 @@ const Index = inject('store')(
       setLoading(true);
       return request({
         url: '/emoj/list',
-        method: 'POST',
+        method: 'GET',
         data: {
           type: currentTab,
           page,

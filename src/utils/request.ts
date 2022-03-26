@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 
-const URL = 'https://api.xjq.icu/v1/c';
-const LURL = 'http://127.0.0.1:39001/v1/c';
+const URL = 'https://c.xjq.icu';
+const LURL = 'http://127.0.0.1:39002';
 
 const request = ({ url, method, data, header = {}, timeout = 10000 }) => {
   const token = Taro.getStorageSync('token');
