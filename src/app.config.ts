@@ -6,21 +6,17 @@ export default defineAppConfig({
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black',
   },
-  tabBar: {
-    color: '#ccccc',
-    selectedColor: '#42BD55',
-    backgroundColor: '',
-    position: 'bottom',
-    borderStyle: 'black',
-    list: [
-      {
-        pagePath: 'pages/home/index',
-        text: '首页',
-      },
-      {
-        pagePath: 'pages/my/index',
-        text: '我的',
-      },
-    ],
-  },
+  // tabBar: {
+  //   color: '#ccccc',
+  //   selectedColor: themeMap.$Primary,
+  //   backgroundColor: themeMap.$White,
+  //   position: 'bottom',
+  //   borderStyle: 'black',
+  //   list: [
+  //     {
+  //       pagePath: 'pages/home/index',
+  //       text: '首页',
+  //     },
+  //   ],
+  // },
 });
