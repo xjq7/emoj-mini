@@ -6,7 +6,7 @@ export default defineAppConfig({
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black',
   },
-  lazyCodeLoading: 'requiredComponents',
+  // lazyCodeLoading: 'requiredComponents',
   // tabBar: {
   //   color: '#ccccc',
   //   selectedColor: themeMap.$Primary,
