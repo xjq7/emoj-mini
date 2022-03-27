@@ -3,6 +3,8 @@ import Taro from '@tarojs/taro';
 const URL = 'https://c.xjq.icu';
 const LURL = 'http://127.0.0.1:39002';
 
+const ENV = process.env.NODE_ENV;
+
 const request = ({ url, method, data, header = {}, timeout = 10000 }) => {
   const token = Taro.getStorageSync('token');
 
@@ -12,7 +14,7 @@ const request = ({ url, method, data, header = {}, timeout = 10000 }) => {
 
   return new Promise((r, j) => {
     Taro.request({
-      url: URL + url,
+      url: (ENV === 'development' ? LURL : URL) + url,
       method,
       data,
       header,
