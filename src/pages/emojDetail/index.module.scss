@@ -6,7 +6,7 @@
   height: 100vh;
   .header {
     width: 750px;
-    padding: 20px 10px;
+    padding: 20px 10px 20px 100px;
     position: fixed;
     z-index: 999;
     background-color: $White;
@@ -16,15 +16,18 @@
     .logo {
       width: 300px;
       height: 300px;
-      border-radius: 10px;
+      border-radius: 20px;
     }
     .header_btn_wrap {
       display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-left: 40px;
-      .like_icon {
-        margin-left: 20px;
+      flex-direction: column;
+      margin-left: 80px;
+      .download {
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+      .share {
+        border-radius: 10px;
       }
     }
   }

@@ -74,28 +74,59 @@ const Component = inject('store')(
       fetchDetail({ id });
     }, [id]);
 
+    const handleDownload = (url: string) => {
+      Taro.downloadFile({
+        url,
+        success(res) {
+          Taro.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
+            success() {
+              Taro.showToast({
+                title: '保存成功!',
+                icon: 'success',
+                duration: 2000,
+              });
+            },
+          });
+        },
+      });
+    };
+
+    const handleShare = () => {
+      Taro.downloadFile({
+        url: url,
+        success: (res) => {
+          Taro.showShareImageMenu({
+            path: res.tempFilePath,
+            success() {
+              Taro.showToast({
+                title: '分享成功!',
+                icon: 'success',
+                duration: 2000,
+              });
+            },
+          });
+        },
+      });
+    };
+
     return (
       <View className={styles.container}>
         <View className={styles.header}>
-          <Image className={styles.logo} mode="aspectFit" src={url} />
+          <Image className={styles.logo} mode="aspectFill" src={url} />
           <View className={styles.header_btn_wrap}>
+            <Button color="danger" className={styles.share} onClick={handleShare}>
+              分享
+            </Button>
             <Button
               color="danger"
-              size="small"
+              className={styles.download}
               onClick={() => {
-                Taro.downloadFile({
-                  url: url,
-                  success: (res) => {
-                    Taro.showShareImageMenu({
-                      path: res.tempFilePath,
-                    });
-                  },
-                });
+                handleDownload(url);
               }}
             >
-              转发好友
+              下载
             </Button>
-            {/* <LikeOutlined size={25} className={styles.like_icon} /> */}
           </View>
         </View>
         <View style={{ height: 180 }} />

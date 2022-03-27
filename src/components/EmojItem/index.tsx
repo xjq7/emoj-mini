@@ -4,7 +4,7 @@ import { Like, Eye } from '@taroify/icons';
 import styles from './index.module.scss';
 
 const Component = (props) => {
-  const { id, url, like, visit, onPress = () => {} } = props;
+  const { id, url, star, visit, onPress = () => {} } = props;
 
   return (
     <View className={styles.item} onClick={() => onPress(props)}>
@@ -12,7 +12,7 @@ const Component = (props) => {
       <View className={styles.data_wrap}>
         <View className={styles.like}>
           <Like size={13} className={styles.like_icon} />
-          <Text className={styles.like_label}>{like}</Text>
+          <Text className={styles.like_label}>{star}</Text>
         </View>
         <View className={styles.visit}>
           <Eye className={styles.visit_icon} />
