@@ -1,5 +1,5 @@
 import { View, Text } from '@tarojs/components';
-import Taro, { usePullDownRefresh, useReachBottom } from '@tarojs/taro';
+import Taro, { usePullDownRefresh, useReachBottom, useShareAppMessage } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 import { observer, inject } from 'mobx-react';
 import request from '@utils/request';
@@ -68,6 +68,17 @@ const Index = inject('store')(
 
     useReachBottom(() => {
       fetchList(pageInfo.page + 1, pageInfo.pageSize);
+    });
+
+    useShareAppMessage((res) => {
+      if (res.from === 'button') {
+        // 来自页面内转发按钮
+        console.log(res.target);
+      }
+      return {
+        title: '表情包集合',
+        path: '/pages/home',
+      };
     });
 
     usePullDownRefresh(() => {
