@@ -15,12 +15,14 @@ const Component = inject('store')(
     const { login } = userStore;
 
     const [phone, setPhone] = useState('');
-    const [name, setName] = useState('');
+    // const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [rPassword, setRPassword] = useState('');
 
     const onSubmit = () => {
       const uPhone = phone.trim();
       const uPwd = password.trim();
+      const uRPwd = rPassword.trim();
 
       if (!uPhone) {
         Toast.show('账号不能为空!');
@@ -29,6 +31,11 @@ const Component = inject('store')(
 
       if (!uPwd) {
         Toast.show('密码不能为空!');
+        return;
+      }
+
+      if (uRPwd !== uPwd) {
+        Toast.show('两次密码不相同!');
         return;
       }
 
@@ -43,7 +50,6 @@ const Component = inject('store')(
         data: {
           phone,
           password,
-          name,
         },
       }).then((userInfo: any) => {
         const { token } = userInfo;
@@ -69,7 +75,7 @@ const Component = inject('store')(
               setPhone(e.detail);
             }}
           />
-          <Field
+          {/* <Field
             value={name}
             clearable
             label="昵称"
@@ -79,7 +85,7 @@ const Component = inject('store')(
             onChange={(e) => {
               setName(e.detail);
             }}
-          />
+          /> */}
           <Field
             value={password}
             type="password"
@@ -90,6 +96,18 @@ const Component = inject('store')(
             maxlength={30}
             onChange={(e) => {
               setPassword(e.detail);
+            }}
+          />
+          <Field
+            value={rPassword}
+            type="password"
+            label="确认密码"
+            placeholder="请输入密码"
+            required
+            border={false}
+            maxlength={30}
+            onChange={(e) => {
+              setRPassword(e.detail);
             }}
           />
         </View>
