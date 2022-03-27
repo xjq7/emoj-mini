@@ -49,6 +49,7 @@ const Component = inject('store')(
         const { token } = userInfo;
         login(userInfo);
         Taro.setStorageSync('token', token);
+        Taro.setStorageSync('userInfo', JSON.stringify(userInfo));
         Taro.navigateBack();
       });
     };

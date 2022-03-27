@@ -8,4 +8,5 @@ export interface IEmoj {
   createdAt?: string;
   star?: number;
   visit?: number;
+  isStar?: boolean;
 }
