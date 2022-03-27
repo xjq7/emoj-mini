@@ -139,6 +139,8 @@ const Component = inject('store')(
         Taro.navigateTo({
           url: '/pages/login/index',
         });
+      } else {
+        console.log(11);
       }
     };
 

@@ -1,0 +1,18 @@
+@import '../../utils/theme.scss';
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  padding: 40px 0;
+  .form {
+    width: 690px;
+    margin: 0 auto;
+  }
+  .submit_wrap {
+    width: 690px;
+    margin: 0 auto;
+    margin-top: 30px;
+    .submit {
+    }
+  }
+}
