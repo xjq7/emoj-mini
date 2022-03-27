@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro';
 import { action, observable } from 'mobx';
 
 class UserStore {
@@ -9,7 +10,10 @@ class UserStore {
     this.userInfo = userInfo;
     this.isLogin = true;
   }
+
+  @action.bound
   logout() {
+    Taro.clearStorageSync();
     this.isLogin = false;
     this.userInfo = {};
   }

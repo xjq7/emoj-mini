@@ -34,10 +34,10 @@ const Component = inject('store')(
         return;
       }
 
-      if (uRPwd !== uPwd) {
-        Toast.show('两次密码不相同!');
-        return;
-      }
+      // if (uRPwd !== uPwd) {
+      //   Toast.show('两次密码不相同!');
+      //   return;
+      // }
 
       if (uPwd.length < 6) {
         Toast.show('密码需要大于6位!');
@@ -98,7 +98,7 @@ const Component = inject('store')(
               setPassword(e.detail);
             }}
           />
-          <Field
+          {/* <Field
             value={rPassword}
             type="password"
             label="确认密码"
@@ -109,7 +109,7 @@ const Component = inject('store')(
             onChange={(e) => {
               setRPassword(e.detail);
             }}
-          />
+          /> */}
         </View>
         <View className={styles.submit_wrap}>
           <Button type="info" size="large" className={styles.submit} onClick={onSubmit}>
