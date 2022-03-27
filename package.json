@@ -35,8 +35,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@antmjs/vantui": "^1.5.1",
     "@babel/runtime": "^7.7.7",
-    "@taroify/core": "^0.0.29-alpha.2",
     "@tarojs/components": "3.4.3",
     "@tarojs/plugin-framework-react": "3.4.3",
     "@tarojs/react": "3.4.3",

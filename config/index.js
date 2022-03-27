@@ -16,7 +16,7 @@ const config = {
     '@components': path.resolve(__dirname, '..', 'src/components'),
     '@utils': path.resolve(__dirname, '..', 'src/utils'),
     '@pages': path.resolve(__dirname, '..', 'src/pages'),
-    '@services': path.resolve(__dirname, '..', 'src/services'),
+    '@interface': path.resolve(__dirname, '..', 'src/interface'),
   },
   defineConstants: {},
   copy: {
@@ -46,10 +46,15 @@ const config = {
     },
   },
   h5: {
+    esnextModules: [/@antmjs[\\/]vantui/],
     publicPath: '/',
     staticDirectory: 'static',
     postcss: {
       autoprefixer: {
+        enable: true,
+        config: {},
+      },
+      pxtransform: {
         enable: true,
         config: {},
       },

@@ -7,11 +7,14 @@
                     "pathName": "pages/emojDetail/index",
                     "query": "id=47492",
                     "launchMode": "default",
-                    "scene": null,
-                    "partialCompile": {
-                        "enabled": true,
-                        "pages": []
-                    }
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "pages/login/index",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
                 }
             ]
         }

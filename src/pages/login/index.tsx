@@ -1,6 +1,6 @@
 import { BaseEventOrig, FormProps, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { Cell, Input, Form, Button } from '@taroify/core';
+import { Form, Field, Button, FormItem } from '@antmjs/vantui';
 import request from '@utils/request';
 
 const Component = () => {
@@ -19,25 +19,34 @@ const Component = () => {
     });
   };
 
+  const getPhoneNumber = (e) => {
+    Taro.login({
+      success(res) {
+        if (res.code) {
+          console.log(res);
+        } else {
+          console.log('登录失败！' + res.errMsg);
+        }
+      },
+    });
+    console.log(e);
+  };
+
   return (
     <View>
-      <Form onSubmit={onSubmit}>
-        <Cell.Group inset>
-          <Form.Item name="phone" rules={[{ required: true, message: '请填写用户名' }]}>
-            <Form.Label>用户名</Form.Label>
-            <Form.Control>
-              <Input placeholder="用户名" />
-            </Form.Control>
-          </Form.Item>
-          <Form.Item name="password" rules={[{ required: true, message: '请填写密码' }]}>
-            <Form.Label>密码</Form.Label>
-            <Form.Control>
-              <Input password placeholder="密码" />
-            </Form.Control>
-          </Form.Item>
-        </Cell.Group>
+      <Button open-type="getPhoneNumber" onGetPhoneNumber={getPhoneNumber}>
+        获取手机号
+      </Button>
+      <Form onFinish={() => {}}>
+        <FormItem label="用户名" name="phone" required>
+          <Field placeholder="用户名" />
+        </FormItem>
+
+        <FormItem label="密码" name="password">
+          <Field password placeholder="密码" />
+        </FormItem>
         <View style={{ margin: '16px' }}>
-          <Button shape="round" block color="primary" formType="submit">
+          <Button type="primary" formType="submit">
             提交
           </Button>
         </View>

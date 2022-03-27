@@ -1,6 +1,5 @@
-import { View, Text } from '@tarojs/components';
-import { Image } from '@taroify/core';
-import { Like, Eye } from '@taroify/icons';
+import { View, Image, Text } from '@tarojs/components';
+import { Icon } from '@antmjs/vantui';
 import styles from './index.module.scss';
 
 const Component = (props) => {
@@ -11,11 +10,11 @@ const Component = (props) => {
       <Image className={styles.img} mode="aspectFit" src={url} />
       <View className={styles.data_wrap}>
         <View className={styles.like}>
-          <Like size={13} className={styles.like_icon} />
+          <Icon name="like" size={26} className={styles.like_icon} />
           <Text className={styles.like_label}>{star}</Text>
         </View>
         <View className={styles.visit}>
-          <Eye className={styles.visit_icon} />
+          <Icon name="eye" size={32} className={styles.visit_icon} />
           <Text className={styles.visit_label}>{visit}</Text>
         </View>
       </View>

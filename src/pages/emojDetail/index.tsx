@@ -1,14 +1,22 @@
-import Taro, { useReachBottom, useRouter } from '@tarojs/taro';
-import { View } from '@tarojs/components';
+import Taro, { usePullDownRefresh, useReachBottom, useRouter, useShareAppMessage } from '@tarojs/taro';
+import { View, Image } from '@tarojs/components';
 import { useEffect, useMemo, useState } from 'react';
-import { Image, Button } from '@taroify/core';
+import { Button, Icon } from '@antmjs/vantui';
 import { inject, observer } from 'mobx-react';
 import request from '@utils/request';
 import EmojList from '@components/EmojList';
+import themeMap from '@utils/theme';
+import { IEmoj } from '@interface/emoj';
 import styles from './index.module.scss';
 
 const Component = inject('store')(
   observer((props) => {
+    const { store } = props;
+
+    const { userStore } = store;
+
+    const { isLogin } = userStore;
+
     const router = useRouter();
     const { params } = router;
 
@@ -16,11 +24,11 @@ const Component = inject('store')(
 
     const [loading, setLoading] = useState(true);
     const [list, setList] = useState([]);
-    const [detail, setDetail] = useState();
+    const [detail, setDetail] = useState<IEmoj>({});
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
 
-    const { url } = detail || { url: '' };
+    const { url = '' } = detail;
 
     const groupId = useMemo(() => (detail || ({} as any)).group_id, [detail]);
 
@@ -42,6 +50,21 @@ const Component = inject('store')(
     useEffect(() => {
       fetchList(1);
     }, [groupId]);
+
+    useShareAppMessage((res) => {
+      if (res.from === 'button') {
+        // 来自页面内转发按钮
+        console.log(res.target);
+      }
+      return {
+        title: detail.name,
+        path: '/pages/emojDetail?id=' + id,
+      };
+    });
+
+    usePullDownRefresh(() => {
+      fetchDetail({ id });
+    });
 
     const fetchList = async (page: number) => {
       if (!groupId) return;
@@ -93,8 +116,9 @@ const Component = inject('store')(
     };
 
     const handleShare = () => {
+      if (!url) return;
       Taro.downloadFile({
-        url: url,
+        url,
         success: (res) => {
           Taro.showShareImageMenu({
             path: res.tempFilePath,
@@ -110,26 +134,38 @@ const Component = inject('store')(
       });
     };
 
+    const handleStar = () => {
+      if (!isLogin) {
+        Taro.navigateTo({
+          url: '/pages/login/index',
+        });
+      }
+    };
+
     return (
       <View className={styles.container}>
         <View className={styles.header}>
-          <Image className={styles.logo} mode="aspectFill" src={url} />
-          <View className={styles.header_btn_wrap}>
-            <Button color="danger" className={styles.share} onClick={handleShare}>
+          <Image className={styles.logo} mode="aspectFit" src={url} />
+          <View className={styles.header_operator}>
+            <Icon name="like-o" size={50} onClick={handleStar} />
+            {/* <Icon name="like" color={themeMap.$Primary} size={50} onClick={handleStar} /> */}
+            <Icon name="share-o" size={50} onClick={handleShare} />
+            <Icon name="down" size={50} onClick={() => handleDownload(url)} />
+            {/* <Button type="info" className={styles.share} onClick={handleShare}>
               分享
             </Button>
             <Button
-              color="danger"
+              type="info"
               className={styles.download}
               onClick={() => {
                 handleDownload(url);
               }}
             >
               下载
-            </Button>
+            </Button> */}
           </View>
         </View>
-        <View style={{ height: 180 }} />
+        <View style={{ height: 210 }} />
         <EmojList
           dataSource={list}
           loading={loading}
