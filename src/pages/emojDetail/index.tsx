@@ -7,6 +7,8 @@ import request from '@utils/request';
 import EmojList from '@components/EmojList';
 import themeMap from '@utils/theme';
 import { IEmoj } from '@interface/emoj';
+import useList from '@hooks/useList';
+import { getEmojList } from '@services/emoj';
 import styles from './index.module.scss';
 
 const Component = inject('store')(
@@ -24,11 +26,15 @@ const Component = inject('store')(
 
     const id = Number(params.id);
 
-    const [loading, setLoading] = useState(true);
-    const [list, setList] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [detail, setDetail] = useState<IEmoj>({});
-    const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState(true);
+
+    const fetchList = async (data) => {
+      if (!detail.group_id) throw new Error();
+      return getEmojList({ ...data, group_id: detail.group_id });
+    };
+
+    const { loading: listLoading, list, refresh: listRefresh, loadMore, hasMore } = useList({ fetchMethod: fetchList });
 
     const { url = '', id: emoj_id, isStar, group_id } = detail;
 
@@ -51,7 +57,7 @@ const Component = inject('store')(
     };
 
     useEffect(() => {
-      fetchList(1);
+      listRefresh();
     }, [group_id]);
 
     useShareAppMessage((res) => {
@@ -70,31 +76,8 @@ const Component = inject('store')(
       fetchDetail({ id: emoj_id });
     });
 
-    const fetchList = async (page: number) => {
-      if (!group_id) return;
-
-      const res: any = await request({
-        url: '/emoj/list',
-        method: 'GET',
-        data: {
-          group_id,
-          page: page,
-          pageSize: 12,
-        },
-      });
-      if (page === 1) {
-        setList(res.list || []);
-      } else {
-        setList(list.concat(res.list || []));
-      }
-      setPage(res.page || 1);
-      setHasMore(res.page * res.pageSize < res.total);
-    };
-
     useReachBottom(() => {
-      if (hasMore) {
-        fetchList(page + 1);
-      }
+      loadMore();
     });
 
     useEffect(() => {
@@ -191,8 +174,8 @@ const Component = inject('store')(
         <View style={{ height: 210 }} />
         <EmojList
           dataSource={list}
-          loading={loading}
-          hasMore={false}
+          loading={listLoading}
+          hasMore={hasMore}
           onPress={(item) => {
             setDetail(item);
           }}

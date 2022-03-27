@@ -3,7 +3,7 @@ import { Icon } from '@antmjs/vantui';
 import styles from './index.module.scss';
 
 const Component = (props) => {
-  const { id, url, star, visit, onPress = () => {} } = props;
+  const { id, url = '', star, visit, onPress = () => {} } = props;
 
   return (
     <View className={styles.item} onClick={() => onPress(props)}>

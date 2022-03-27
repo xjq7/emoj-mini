@@ -2,6 +2,7 @@ import { Text, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { Button, Cell, CellGroup, Icon } from '@antmjs/vantui';
 import { inject, observer } from 'mobx-react';
+import { CellProps } from '@antmjs/vantui/types/cell';
 import styles from './index.module.scss';
 
 const Component = inject('store')(
@@ -25,6 +26,23 @@ const Component = inject('store')(
       });
     };
 
+    const cellProps: CellProps[] = isLogin
+      ? [
+          {
+            isLink: true,
+            linkType: 'navigateTo',
+            url: '/pages/starList/index',
+            clickable: true,
+          },
+          {
+            isLink: true,
+            linkType: 'navigateTo',
+            url: '/pages/visitList/index',
+            clickable: true,
+          },
+        ]
+      : [{}];
+
     return (
       <View className={styles.container}>
         <View className={styles.header}>
@@ -35,8 +53,8 @@ const Component = inject('store')(
         </View>
 
         <CellGroup title="个人空间">
-          <Cell isLink title="我的浏览" linkType="navigateTo" url="/pages/dashboard/index" />
-          <Cell isLink title="我的点赞" linkType="navigateTo" url="/pages/dashboard/index" />
+          <Cell title="我的点赞" {...cellProps[0]} />
+          <Cell title="我的浏览" {...cellProps[1]} />
         </CellGroup>
         {isLogin && (
           <Button className={styles.logout} type="info" size="large" onClick={handleLogout}>

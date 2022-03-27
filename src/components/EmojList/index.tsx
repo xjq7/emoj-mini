@@ -7,7 +7,7 @@ const Component = (props) => {
   return (
     <View className={styles.container}>
       <View className={styles.list}>
-        {dataSource.map((item: any, index) => {
+        {dataSource.map((item: any = {}, index) => {
           return <EmojItem key={item.id} {...item} index={index} onPress={onPress} />;
         })}
       </View>

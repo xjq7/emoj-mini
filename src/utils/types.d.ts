@@ -9,9 +9,9 @@ export interface Response<T = AnyOptions> {
 }
 
 export interface PageInfo {
-  page?: number;
-  pageSize?: number;
-  total?: number;
+  page: number;
+  pageSize: number;
+  total: number;
 }
 
 export interface ResponseList<T> {

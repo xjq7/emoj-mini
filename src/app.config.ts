@@ -1,7 +1,14 @@
 import themeMap from './utils/theme';
 
 export default defineAppConfig({
-  pages: ['pages/home/index', 'pages/my/index', 'pages/login/index', 'pages/emojDetail/index'],
+  pages: [
+    'pages/home/index',
+    'pages/my/index',
+    'pages/login/index',
+    'pages/emojDetail/index',
+    'pages/starList/index',
+    'pages/visitList/index',
+  ],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',

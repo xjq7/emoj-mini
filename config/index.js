@@ -17,6 +17,8 @@ const config = {
     '@utils': path.resolve(__dirname, '..', 'src/utils'),
     '@pages': path.resolve(__dirname, '..', 'src/pages'),
     '@interface': path.resolve(__dirname, '..', 'src/interface'),
+    '@services': path.resolve(__dirname, '..', 'src/services'),
+    '@hooks': path.resolve(__dirname, '..', 'src/hooks'),
   },
   defineConstants: {},
   copy: {
