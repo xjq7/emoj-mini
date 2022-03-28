@@ -17,9 +17,7 @@ const Component = inject('store')(
 
     const { userStore } = store;
 
-    const { isLogin, userInfo } = userStore;
-
-    const { id: userId } = userInfo;
+    const { isLogin } = userStore;
 
     const router = useRouter();
     const { params } = router;
@@ -40,14 +38,12 @@ const Component = inject('store')(
 
     const fetchDetail = async (data) => {
       setLoading(true);
+
       try {
         const emojInfo = (await request({
           url: '/emoj',
           method: 'GET',
-          data: {
-            ...data,
-            user_id: userId,
-          },
+          data,
         })) as any;
         setDetail(emojInfo);
       } catch (error) {
