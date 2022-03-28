@@ -1,4 +1,3 @@
-import Taro from '@tarojs/taro';
 import { ListResponse } from '@interface/common';
 import { PageInfo } from '@utils/types';
 import { useEffect, useState } from 'react';
@@ -24,7 +23,6 @@ function useList<T>(props: Props<T>) {
       const { list: rList = [], total, page: rPage, pageSize: rPageSize } = result;
 
       if (rPage === 1) {
-        setList([]);
         setList(rList);
       } else {
         setList(list.concat(rList));
