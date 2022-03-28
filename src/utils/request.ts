@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro';
+import userStore from '../store/user';
 
 const URL = 'https://c.xjq.icu';
 const LURL = 'http://127.0.0.1:39002';
@@ -21,7 +22,13 @@ const request = ({ url, method, data, header = {}, timeout = 10000 }) => {
       timeout,
       success: (res) => {
         const { code, message } = res.data;
-        if (code) {
+
+        if (code === 2) {
+          userStore.logout();
+          Taro.navigateTo({
+            url: '/pages/login/index',
+          });
+          j();
           Taro.showToast({
             title: message,
             icon: 'error',
