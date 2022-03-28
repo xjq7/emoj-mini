@@ -1,7 +1,7 @@
 // 主题颜色
 const $Primary = '#fa331d';
 const $Yellow = '#ffc65d';
-const $Blue = '#1383ff';
+const $Blue = '#40a9ff';
 
 // 黑色
 const $BlackS = '#141115';

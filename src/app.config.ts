@@ -6,9 +6,10 @@ export default defineAppConfig({
     'pages/my/index',
     'pages/login/index',
     'pages/emojDetail/index',
-    'pages/emojPack/index',
+    // 'pages/emojPack/index',
     'pages/starList/index',
     'pages/visitList/index',
+    'pages/emojSearch/index',
   ],
   window: {
     backgroundTextStyle: 'light',

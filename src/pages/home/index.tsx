@@ -6,6 +6,7 @@ import EmojList from '@components/EmojList';
 import themeMap from '@utils/theme';
 import useList from '@hooks/useList';
 import { getEmojList } from '@services/emoj';
+import { Icon } from '@antmjs/vantui';
 import styles from './index.module.scss';
 
 type PageStateProps = {
@@ -80,7 +81,6 @@ const Index = inject('store')(
             </Text>
           </View>
         </View>
-        <View style={{ height: 56 }} />
         <EmojList
           loading={loading}
           dataSource={list}
@@ -91,6 +91,14 @@ const Index = inject('store')(
             });
           }}
         />
+        <View
+          className={styles.search}
+          onClick={() => {
+            Taro.navigateTo({ url: '/pages/emojSearch/index' });
+          }}
+        >
+          <Icon classPrefix="icon" name="iconfontzhizuobiaozhun023131" size={50} color={themeMap.$White} />
+        </View>
       </View>
     );
   }),

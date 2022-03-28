@@ -76,11 +76,6 @@ const Component = inject('store')(
       loadMore();
     });
 
-    useEffect(() => {
-      if (!emoj_id) return;
-      fetchDetail({ id: emoj_id });
-    }, [emoj_id]);
-
     const refresh = () => {
       if (!emoj_id) return;
       fetchDetail({ id: emoj_id });
@@ -92,16 +87,21 @@ const Component = inject('store')(
     }, [id]);
 
     const handleDownload = (url: string) => {
+      Taro.showLoading({ title: '加载中...' });
       Taro.downloadFile({
         url,
         success(res) {
           Taro.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
             success() {
+              Taro.hideLoading();
               Toast.show({
                 type: 'success',
                 message: '保存成功!',
               });
+            },
+            fail() {
+              Taro.hideLoading();
             },
           });
         },

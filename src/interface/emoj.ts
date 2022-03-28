@@ -10,3 +10,11 @@ export interface IEmoj {
   visit?: number;
   isStar?: boolean;
 }
+
+export interface IEmojGroup {
+  id?: number;
+  name?: string;
+  desc?: string;
+  updatedAt?: string;
+  createdAt?: string;
+}

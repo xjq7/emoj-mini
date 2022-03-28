@@ -3,6 +3,7 @@
 .container {
   width: 100%;
   height: 100vh;
+  padding-top: 98px;
   .tabs {
     width: 100%;
     height: 100px;
@@ -13,6 +14,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+    margin-top: -98px;
     .tab {
       width: 50%;
       display: flex;
@@ -26,5 +28,18 @@
         padding-bottom: 20px;
       }
     }
+  }
+  .search {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    background: $Blue;
+    z-index: 999;
+    position: fixed;
+    bottom: 100px;
+    right: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

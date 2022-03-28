@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro';
 import { ListResponse } from '@interface/common';
 import { PageInfo } from '@utils/types';
 import { useEffect, useState } from 'react';
@@ -23,6 +24,7 @@ function useList<T>(props: Props<T>) {
       const { list: rList = [], total, page: rPage, pageSize: rPageSize } = result;
 
       if (rPage === 1) {
+        setList([]);
         setList(rList);
       } else {
         setList(list.concat(rList));
@@ -41,14 +43,14 @@ function useList<T>(props: Props<T>) {
     }
   };
 
-  const refresh = () => {
+  const refresh = async () => {
     if (loading) return;
-    fetchList(1, pageInfo.pageSize);
+    await fetchList(1, pageInfo.pageSize);
   };
 
-  const loadMore = () => {
+  const loadMore = async () => {
     if (loading || !hasMore) return;
-    fetchList(pageInfo.page + 1, pageInfo.pageSize);
+    await fetchList(pageInfo.page + 1, pageInfo.pageSize);
   };
 
   useEffect(() => {
