@@ -6,7 +6,7 @@ interface Props<T> {
   fetchMethod(o: any): Promise<ListResponse<T>>;
 }
 
-function UseList<T>(props: Props<T>) {
+function useList<T>(props: Props<T>) {
   const { fetchMethod } = props;
   const [list, setList] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
@@ -58,4 +58,4 @@ function UseList<T>(props: Props<T>) {
   return { loading, refresh, loadMore, list, hasMore };
 }
 
-export default UseList;
+export default useList;
