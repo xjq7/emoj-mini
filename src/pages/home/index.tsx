@@ -42,7 +42,7 @@ const Index = inject('store')(
       }
       return {
         title: '表情包集合',
-        path: '/pages/home',
+        path: '/pages/home/index',
       };
     });
 

@@ -67,7 +67,7 @@ const Component = inject('store')(
       }
       return {
         title: detail.name,
-        path: '/pages/emojDetail?id=' + id,
+        path: '/pages/emojDetail/index?id=' + id,
       };
     });
 
