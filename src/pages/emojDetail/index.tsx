@@ -1,4 +1,4 @@
-import Taro, { useRouter, useShareAppMessage } from '@tarojs/taro';
+import Taro, { usePullDownRefresh, useRouter, useShareAppMessage } from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
 import { useCallback, useEffect, useState } from 'react';
 import { Icon, Toast } from '@antmjs/vantui';
@@ -38,6 +38,10 @@ const Component = inject('store')(
       },
       [listParams],
     );
+
+    usePullDownRefresh(() => {
+      fetchDetail({ id });
+    });
 
     useEffect(() => {
       if (!group_id || listParams) return;
