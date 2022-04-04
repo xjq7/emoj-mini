@@ -1,5 +1,5 @@
 import { View, Text } from '@tarojs/components';
-import Taro from '@tarojs/taro';
+import Taro, { useShareAppMessage } from '@tarojs/taro';
 import { getEmojListByGroup } from '@services/emoj';
 import { IEmoj, IEmojGroup } from '@interface/emoj';
 import FlatList from '@components/FlatList';
@@ -17,6 +17,17 @@ const Component = () => {
   const fetchList = useCallback((o: any) => {
     return getEmojListByGroup(o);
   }, []);
+
+  useShareAppMessage((res) => {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target);
+    }
+    return {
+      title: '表情包集合',
+      path: '/pages/emojPack/index',
+    };
+  });
 
   const renderItem = (item) => {
     const { emojList, groupInfo } = item;
