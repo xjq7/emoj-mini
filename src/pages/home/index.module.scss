@@ -42,4 +42,9 @@
     justify-content: center;
     align-items: center;
   }
+  .list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 }

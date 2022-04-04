@@ -1,37 +1,35 @@
 import { View } from '@tarojs/components';
-import Taro, { useReachBottom } from '@tarojs/taro';
+import Taro from '@tarojs/taro';
 import { Search } from '@antmjs/vantui';
-import { useState } from 'react';
-import useList from '@hooks/useList';
+import { useCallback, useState } from 'react';
 import { getEmojList } from '@services/emoj';
-import EmojList from '@components/EmojList';
+import { IEmoj } from '@interface/emoj';
+import EmojItem from '@components/EmojItem';
+import FlatList from '@components/FlatList';
 import styles from './index.module.scss';
 
 const Component = () => {
   const [keyword, setKeyword] = useState('');
+  const [listParams, setListParamsd] = useState({});
 
-  const fetchList = (data) => {
-    const params = data;
-    if (keyword) params.name = keyword;
-    return getEmojList(params);
-  };
-
-  const { list, hasMore, loading, refresh, loadMore } = useList({ fetchMethod: fetchList });
+  const fetchList = useCallback(
+    (data) => {
+      return getEmojList({ ...data, ...listParams });
+    },
+    [listParams],
+  );
 
   const handleChange = (e) => {
     setKeyword(e.detail.trim());
   };
 
   const handleSearch = async () => {
-    await refresh();
-    Taro.pageScrollTo({
-      scrollTop: 0,
-    });
+    const params: any = {};
+    if (keyword) {
+      params.name = keyword;
+    }
+    setListParamsd(params);
   };
-
-  useReachBottom(() => {
-    loadMore();
-  });
 
   return (
     <View className={styles.container}>
@@ -41,22 +39,24 @@ const Component = () => {
           placeholder="请输入搜索关键词"
           onChange={handleChange}
           onSearch={handleSearch}
-          renderAction={
-            <View
-              onClick={async () => {
-                await refresh();
-                Taro.pageScrollTo({
-                  scrollTop: 0,
-                });
-              }}
-            >
-              搜索
-            </View>
-          }
+          renderAction={<View onClick={handleSearch}>搜索</View>}
         />
       </View>
 
-      <EmojList dataSource={list} loading={loading} hasMore={hasMore}></EmojList>
+      <FlatList<IEmoj>
+        className={styles.list}
+        fetchMethod={fetchList}
+        renderItem={(item) => (
+          <EmojItem
+            {...item}
+            onPress={() => {
+              Taro.navigateTo({
+                url: '/pages/emojDetail/index?id=' + item.id,
+              });
+            }}
+          />
+        )}
+      />
     </View>
   );
 };

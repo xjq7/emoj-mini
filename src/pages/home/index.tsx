@@ -1,12 +1,13 @@
 import { View, Text } from '@tarojs/components';
-import Taro, { usePullDownRefresh, useReachBottom, useShareAppMessage } from '@tarojs/taro';
-import { useEffect, useState } from 'react';
+import Taro, { useShareAppMessage } from '@tarojs/taro';
+import { useCallback, useState } from 'react';
 import { observer, inject } from 'mobx-react';
-import EmojList from '@components/EmojList';
 import themeMap from '@utils/theme';
-import useList from '@hooks/useList';
-import { getEmojList } from '@services/emoj';
 import { Icon } from '@antmjs/vantui';
+import FlatList from '@components/FlatList';
+import { IEmoj } from '@interface/emoj';
+import EmojItem from '@components/EmojItem';
+import { getEmojList } from '@services/emoj';
 import styles from './index.module.scss';
 
 type PageStateProps = {
@@ -26,15 +27,12 @@ const Index = inject('store')(
   observer((props) => {
     const [currentTab, setCurrentTab] = useState<Tab>(Tab.hot);
 
-    const fetchList = async (data: any) => {
-      return getEmojList({ ...data, type: currentTab });
-    };
-
-    const { loading, list, refresh, loadMore, hasMore } = useList({ fetchMethod: fetchList });
-
-    useReachBottom(() => {
-      loadMore();
-    });
+    const fetchList = useCallback(
+      async (data: any) => {
+        return getEmojList({ ...data, type: currentTab });
+      },
+      [currentTab],
+    );
 
     useShareAppMessage((res) => {
       if (res.from === 'button') {
@@ -46,14 +44,6 @@ const Index = inject('store')(
         path: '/pages/home/index',
       };
     });
-
-    usePullDownRefresh(() => {
-      refresh();
-    });
-
-    useEffect(() => {
-      refresh();
-    }, [currentTab]);
 
     return (
       <View className={styles.container}>
@@ -81,15 +71,19 @@ const Index = inject('store')(
             </Text>
           </View>
         </View>
-        <EmojList
-          loading={loading}
-          dataSource={list}
-          hasMore={hasMore}
-          onPress={({ id }) => {
-            Taro.navigateTo({
-              url: '/pages/emojDetail/index?id=' + id,
-            });
-          }}
+        <FlatList<IEmoj>
+          className={styles.list}
+          fetchMethod={fetchList}
+          renderItem={(item) => (
+            <EmojItem
+              {...item}
+              onPress={() => {
+                Taro.navigateTo({
+                  url: '/pages/emojDetail/index?id=' + item.id,
+                });
+              }}
+            />
+          )}
         />
         <View
           className={styles.search}

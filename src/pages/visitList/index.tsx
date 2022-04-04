@@ -1,30 +1,34 @@
 import { View } from '@tarojs/components';
-import { usePullDownRefresh, useReachBottom } from '@tarojs/taro';
-import EmojList from '@components/EmojList';
-import useList from '@hooks/useList';
+import Taro from '@tarojs/taro';
 import { PageInfo } from '@utils/types';
 import { getUserVisitList } from '@services/user';
 import { IEmoj } from '@interface/emoj';
+import EmojItem from '@components/EmojItem';
+import FlatList from '@components/FlatList';
+import { useCallback } from 'react';
 import styles from './index.module.scss';
 
 const Component = () => {
-  const fetchList = (data: PageInfo) => {
+  const fetchList = useCallback((data: PageInfo) => {
     return getUserVisitList<IEmoj>(data);
-  };
-
-  const { loading, list, refresh, loadMore, hasMore } = useList({ fetchMethod: fetchList });
-
-  usePullDownRefresh(() => {
-    refresh();
-  });
-
-  useReachBottom(() => {
-    loadMore();
-  });
+  }, []);
 
   return (
     <View className={styles.container}>
-      <EmojList dataSource={list} loading={loading} hasMore={hasMore} />
+      <FlatList<IEmoj>
+        className={styles.list}
+        fetchMethod={fetchList}
+        renderItem={(item) => (
+          <EmojItem
+            {...item}
+            onPress={() => {
+              Taro.navigateTo({
+                url: '/pages/emojDetail/index?id=' + item.id,
+              });
+            }}
+          />
+        )}
+      />
     </View>
   );
 };

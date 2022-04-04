@@ -1,4 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '详情',
+  navigationBarTitleText: '表情包',
+  enablePullDownRefresh: true,
   enableShareAppMessage: true,
 });

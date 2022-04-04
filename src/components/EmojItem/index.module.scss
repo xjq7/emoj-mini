@@ -2,9 +2,11 @@
 .item {
   width: 236px;
   padding: 10px 0;
-  margin: 10px 0 0 10px;
+  margin: 10px 0 0 9px;
   border-radius: 10px;
   background-color: white;
+  border: 1px solid $Divider;
+
   .img {
     width: 236px;
     height: 236px;
@@ -39,4 +41,8 @@
       }
     }
   }
+}
+
+.isSelect {
+  border: 3px solid $Primary;
 }

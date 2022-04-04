@@ -2,8 +2,8 @@ import { Text } from '@tarojs/components';
 import styles from './index.module.scss';
 
 interface Props {
-  hasMore?: boolean;
-  loading?: boolean;
+  hasMore: boolean;
+  loading: boolean;
 }
 
 const Component = (props: Props) => {

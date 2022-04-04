@@ -6,7 +6,7 @@ export default defineAppConfig({
     'pages/my/index',
     'pages/login/index',
     'pages/emojDetail/index',
-    // 'pages/emojPack/index',
+    'pages/emojPack/index',
     'pages/starList/index',
     'pages/visitList/index',
     'pages/emojSearch/index',
@@ -31,12 +31,12 @@ export default defineAppConfig({
         iconPath: './assets/home.png',
         selectedIconPath: './assets/home_selected.png',
       },
-      // {
-      //   pagePath: 'pages/emojPack/index',
-      //   text: '表情包',
-      //   iconPath: './assets/emojPack.png',
-      //   selectedIconPath: './assets/emojPack_selected.png',
-      // },
+      {
+        pagePath: 'pages/emojPack/index',
+        text: '表情包',
+        iconPath: './assets/emojPack.png',
+        selectedIconPath: './assets/emojPack_selected.png',
+      },
       {
         pagePath: 'pages/my/index',
         text: '我的',

@@ -1,22 +1,26 @@
 import { View, Image, Text } from '@tarojs/components';
-import Taro from '@tarojs/taro';
 import { Icon } from '@antmjs/vantui';
+import classnames from 'classnames';
 import styles from './index.module.scss';
 
-const Component = (props) => {
-  const { id, url = '', star, visit, onPress } = props;
+interface Props {
+  id?: number;
+  url?: string;
+  star?: number;
+  visit?: number;
+  onPress?(): void;
+  isSelect?: boolean;
+  className?: string;
+}
+
+const Component = (props: Props) => {
+  const { url = '', star, visit, onPress, isSelect = false, className } = props;
 
   return (
     <View
-      className={styles.item}
+      className={classnames(styles.item, className, isSelect && styles.isSelect)}
       onClick={() => {
-        if (onPress) {
-          onPress(props);
-        } else {
-          Taro.navigateTo({
-            url: '/pages/emojDetail/index?id=' + id,
-          });
-        }
+        onPress && onPress();
       }}
     >
       <Image className={styles.img} mode="aspectFit" src={url} />

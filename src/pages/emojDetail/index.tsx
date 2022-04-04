@@ -1,14 +1,14 @@
-import Taro, { usePullDownRefresh, useReachBottom, useRouter, useShareAppMessage } from '@tarojs/taro';
+import Taro, { useRouter, useShareAppMessage } from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Icon, Toast } from '@antmjs/vantui';
 import { inject, observer } from 'mobx-react';
 import request from '@utils/request';
-import EmojList from '@components/EmojList';
 import themeMap from '@utils/theme';
 import { IEmoj } from '@interface/emoj';
-import useList from '@hooks/useList';
 import { getEmojList } from '@services/emoj';
+import FlatList from '@components/FlatList';
+import EmojItem from '@components/EmojItem';
 import styles from './index.module.scss';
 
 const Component = inject('store')(
@@ -27,18 +27,25 @@ const Component = inject('store')(
     const [loading, setLoading] = useState(false);
     const [detail, setDetail] = useState<IEmoj>({});
 
-    const fetchList = async (data) => {
-      if (!detail.group_id) throw new Error();
-      return getEmojList({ ...data, group_id: detail.group_id });
-    };
-
-    const { loading: listLoading, list, refresh: listRefresh, loadMore, hasMore } = useList({ fetchMethod: fetchList });
-
     const { url = '', id: emoj_id, isStar, group_id } = detail;
+
+    const [listParams, setListParams] = useState<IEmoj>();
+
+    const fetchList = useCallback(
+      async (data) => {
+        if (!listParams) throw new Error();
+        return getEmojList({ ...data, group_id: listParams.group_id });
+      },
+      [listParams],
+    );
+
+    useEffect(() => {
+      if (!group_id || listParams) return;
+      setListParams({ group_id: group_id });
+    }, [group_id, listParams]);
 
     const fetchDetail = async (data) => {
       setLoading(true);
-
       try {
         const emojInfo = (await request({
           url: '/emoj',
@@ -52,10 +59,6 @@ const Component = inject('store')(
       }
     };
 
-    useEffect(() => {
-      listRefresh();
-    }, [group_id]);
-
     useShareAppMessage((res) => {
       if (res.from === 'button') {
         // 来自页面内转发按钮
@@ -65,15 +68,6 @@ const Component = inject('store')(
         title: detail.name,
         path: '/pages/emojDetail/index?id=' + id,
       };
-    });
-
-    usePullDownRefresh(() => {
-      if (!emoj_id) return;
-      fetchDetail({ id: emoj_id });
-    });
-
-    useReachBottom(() => {
-      loadMore();
     });
 
     const refresh = () => {
@@ -168,14 +162,21 @@ const Component = inject('store')(
           </View>
         </View>
         <View style={{ height: 210 }} />
-        <EmojList
-          dataSource={list}
-          loading={listLoading}
-          hasMore={hasMore}
-          onPress={(item) => {
-            setDetail(item);
-          }}
+        <FlatList<IEmoj>
+          className={styles.list}
+          fetchMethod={fetchList}
+          enabledPullDownRefresh={false}
+          renderItem={(item) => (
+            <EmojItem
+              {...item}
+              isSelect={item.id === emoj_id}
+              onPress={() => {
+                setDetail(item);
+              }}
+            />
+          )}
         />
+
         <Toast id="vanToast" />
       </View>
     );

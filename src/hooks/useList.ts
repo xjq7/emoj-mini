@@ -55,6 +55,10 @@ function useList<T>(props: Props<T>) {
     fetchList(1, pageInfo.pageSize);
   }, []);
 
+  useEffect(() => {
+    refresh();
+  }, [fetchMethod]);
+
   return { loading, refresh, loadMore, list, hasMore };
 }
 

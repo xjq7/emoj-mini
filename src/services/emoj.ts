@@ -1,4 +1,5 @@
 import { ListResponse } from '@interface/common';
+import { IEmoj } from '@interface/emoj';
 import request from '@utils/request';
 import { PageInfo } from '@utils/types';
 
@@ -7,12 +8,12 @@ interface IEmojListRequest extends PageInfo {
   group_id?: number;
 }
 
-export function getEmojList<T>(data: IEmojListRequest): Promise<ListResponse<T>> {
+export function getEmojList(data: IEmojListRequest): Promise<ListResponse<IEmoj>> {
   return request({
     url: '/emoj/list',
     method: 'GET',
     data,
-  }) as Promise<ListResponse<T>>;
+  }) as Promise<ListResponse<IEmoj>>;
 }
 
 interface IEmojListByGroupRequestExt extends PageInfo {}
