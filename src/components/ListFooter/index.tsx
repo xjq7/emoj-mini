@@ -10,7 +10,7 @@ const Component = (props: Props) => {
   const { hasMore = true, loading = false } = props;
   return (
     <>
-      {hasMore && <Text className={styles.loading}>加载中...</Text>}
+      {(hasMore || loading) && <Text className={styles.loading}>加载中...</Text>}
       {!hasMore && !loading && <Text className={styles.footer}>到底了</Text>}
     </>
   );
