@@ -10,6 +10,8 @@ export interface IEmoj {
   visit?: number;
   isStar?: boolean;
   isFavorite?: boolean;
+  author?: string;
+  author_id?: number;
 }
 
 export interface IEmojGroup {

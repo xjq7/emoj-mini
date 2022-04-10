@@ -1,5 +1,5 @@
 import Taro, { usePullDownRefresh, useRouter, useShareAppMessage } from '@tarojs/taro';
-import { View, Image } from '@tarojs/components';
+import { View, Image, Text } from '@tarojs/components';
 import { useCallback, useEffect, useState } from 'react';
 import { Icon, Toast } from '@antmjs/vantui';
 import { inject, observer } from 'mobx-react';
@@ -10,6 +10,7 @@ import { getEmojList, postFavoriteEmoj } from '@services/emoj';
 import FlatList from '@components/FlatList';
 import EmojItem from '@components/EmojItem';
 import PageView from '@components/PageView';
+import dayjs from 'dayjs';
 import styles from './index.module.scss';
 
 const Component = inject('store')(
@@ -25,12 +26,11 @@ const Component = inject('store')(
 
     const id = Number(params.id);
 
-    const [loading, setLoading] = useState(false);
     const [detail, setDetail] = useState<IEmoj>({});
 
     const [emojId, setEmojId] = useState<number>(id);
 
-    const { url = '', isStar = false, isFavorite = false, group_id } = detail;
+    const { url = '', name, author, isStar = false, isFavorite = false, group_id, createdAt } = detail;
 
     const [listParams, setListParams] = useState<IEmoj>();
 
@@ -62,7 +62,7 @@ const Component = inject('store')(
     }, [group_id, listParams]);
 
     const fetchDetail = async (data) => {
-      setLoading(true);
+      Taro.showLoading({ title: '加载中...' });
       try {
         const emojInfo = (await request({
           url: '/emoj',
@@ -72,7 +72,7 @@ const Component = inject('store')(
         setDetail(emojInfo);
       } catch (error) {
       } finally {
-        setLoading(false);
+        Taro.hideLoading();
       }
     };
 
@@ -207,29 +207,35 @@ const Component = inject('store')(
       <PageView className={styles.container}>
         <View className={styles.header}>
           <Image className={styles.logo} mode="aspectFit" src={url} />
-          <View className={styles.header_operator}>
-            {isStar ? (
-              <Icon name="like" color={themeMap.$Primary} size={48} onClick={handleStar} />
-            ) : (
-              <Icon name="like-o" size={48} onClick={handleStar} />
-            )}
-            <Icon name="share-o" size={50} onClick={handleShare} />
-
-            {isFavorite ? (
-              <Icon
-                classPrefix="icon"
-                color={themeMap.$Primary}
-                name="shoucangxuanzhong"
-                size={54}
-                onClick={handleFavorite}
-              />
-            ) : (
-              <Icon classPrefix="icon" name="shoucang_o" size={54} onClick={handleFavorite} />
-            )}
-            <Icon classPrefix="icon" name="xiazai-wenjianxiazai-07" size={46} onClick={() => handleDownload(url)} />
+          <View className={styles.info_wrap}>
+            <View className={styles.info}>
+              <Text className={styles.name}>{name}</Text>
+              <Text className={styles.author}>作者: {author}</Text>
+              <Text className={styles.createdAt}>创建时间: {dayjs(createdAt).format('YYYY.MM.DD')}</Text>
+            </View>
+            <View className={styles.operator}>
+              {isStar ? (
+                <Icon name="like" color={themeMap.$Primary} size={48} onClick={handleStar} />
+              ) : (
+                <Icon name="like-o" size={48} onClick={handleStar} />
+              )}
+              <Icon name="share-o" size={50} onClick={handleShare} />
+              {isFavorite ? (
+                <Icon
+                  classPrefix="icon"
+                  color={themeMap.$Primary}
+                  name="shoucangxuanzhong"
+                  size={54}
+                  onClick={handleFavorite}
+                />
+              ) : (
+                <Icon classPrefix="icon" name="shoucang_o" size={54} onClick={handleFavorite} />
+              )}
+              <Icon classPrefix="icon" name="xiazai-wenjianxiazai-07" size={46} onClick={() => handleDownload(url)} />
+            </View>
           </View>
         </View>
-        <View style={{ height: 210 }} />
+        <View style={{ height: 176 }} />
         <FlatList<IEmoj[]> fetchMethod={fetchList} enabledPullDownRefresh={false} renderItem={renderItem} />
 
         <Toast id="vanToast" />
