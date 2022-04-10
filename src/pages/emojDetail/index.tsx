@@ -6,9 +6,10 @@ import { inject, observer } from 'mobx-react';
 import request from '@utils/request';
 import themeMap from '@utils/theme';
 import { IEmoj } from '@interface/emoj';
-import { getEmojList } from '@services/emoj';
+import { getEmojList, postFavoriteEmoj } from '@services/emoj';
 import FlatList from '@components/FlatList';
 import EmojItem from '@components/EmojItem';
+import PageView from '@components/PageView';
 import styles from './index.module.scss';
 
 const Component = inject('store')(
@@ -27,14 +28,26 @@ const Component = inject('store')(
     const [loading, setLoading] = useState(false);
     const [detail, setDetail] = useState<IEmoj>({});
 
-    const { url = '', id: emoj_id, isStar, group_id } = detail;
+    const [emojId, setEmojId] = useState<number>(id);
+
+    const { url = '', isStar = false, isFavorite = false, group_id } = detail;
 
     const [listParams, setListParams] = useState<IEmoj>();
 
     const fetchList = useCallback(
       async (data) => {
         if (!listParams) throw new Error();
-        return getEmojList({ ...data, group_id: listParams.group_id });
+        return getEmojList({ ...data, group_id: listParams.group_id }).then((res) => ({
+          ...res,
+          list: res.list?.reduce((acc: IEmoj[][], cur: IEmoj, index: number) => {
+            if (index % 3 === 0) {
+              acc.push([cur]);
+            } else {
+              acc[acc.length - 1].push(cur);
+            }
+            return acc;
+          }, []),
+        }));
       },
       [listParams],
     );
@@ -75,14 +88,13 @@ const Component = inject('store')(
     });
 
     const refresh = () => {
-      if (!emoj_id) return;
-      fetchDetail({ id: emoj_id });
+      fetchDetail({ id: emojId });
     };
 
     useEffect(() => {
-      if (!id) return;
-      fetchDetail({ id });
-    }, [id]);
+      if (!emojId) return;
+      fetchDetail({ id: emojId });
+    }, [emojId]);
 
     const handleDownload = (url: string) => {
       Taro.showLoading({ title: '加载中...' });
@@ -138,7 +150,7 @@ const Component = inject('store')(
             url: '/emoj/star',
             method: 'POST',
             data: {
-              emoj_id,
+              emoj_id: emojId,
             },
           });
           Toast.show({ message: isStar ? '取消点赞成功' : '点赞成功' });
@@ -150,39 +162,78 @@ const Component = inject('store')(
       }
     };
 
+    const handleFavorite = async () => {
+      if (!isLogin) {
+        Taro.navigateTo({
+          url: '/pages/login/index',
+        });
+      } else {
+        Taro.showLoading({
+          title: '处理中...',
+        });
+        try {
+          await postFavoriteEmoj({
+            emoj_id: emojId,
+            status: isFavorite ? 0 : 1,
+          });
+          Toast.show({ message: isFavorite ? '已取消收藏' : '已收藏' });
+          refresh();
+        } catch (error) {
+        } finally {
+          Taro.hideLoading();
+        }
+      }
+    };
+
+    const renderItem = (list) => {
+      return (
+        <View className={styles.item_list}>
+          {list.map((item) => {
+            return (
+              <EmojItem
+                key={item.id}
+                {...item}
+                onPress={() => {
+                  setEmojId(item.id);
+                }}
+              ></EmojItem>
+            );
+          })}
+        </View>
+      );
+    };
+
     return (
-      <View className={styles.container}>
+      <PageView className={styles.container}>
         <View className={styles.header}>
           <Image className={styles.logo} mode="aspectFit" src={url} />
           <View className={styles.header_operator}>
             {isStar ? (
-              <Icon name="like" color={themeMap.$Primary} size={50} onClick={handleStar} />
+              <Icon name="like" color={themeMap.$Primary} size={48} onClick={handleStar} />
             ) : (
-              <Icon name="like-o" size={50} onClick={handleStar} />
+              <Icon name="like-o" size={48} onClick={handleStar} />
             )}
-
             <Icon name="share-o" size={50} onClick={handleShare} />
-            <Icon name="down" size={50} onClick={() => handleDownload(url)} />
+
+            {isFavorite ? (
+              <Icon
+                classPrefix="icon"
+                color={themeMap.$Primary}
+                name="shoucangxuanzhong"
+                size={54}
+                onClick={handleFavorite}
+              />
+            ) : (
+              <Icon classPrefix="icon" name="shoucang_o" size={54} onClick={handleFavorite} />
+            )}
+            <Icon classPrefix="icon" name="xiazai-wenjianxiazai-07" size={46} onClick={() => handleDownload(url)} />
           </View>
         </View>
         <View style={{ height: 210 }} />
-        <FlatList<IEmoj>
-          className={styles.list}
-          fetchMethod={fetchList}
-          enabledPullDownRefresh={false}
-          renderItem={(item) => (
-            <EmojItem
-              {...item}
-              isSelect={item.id === emoj_id}
-              onPress={() => {
-                setDetail(item);
-              }}
-            />
-          )}
-        />
+        <FlatList<IEmoj[]> fetchMethod={fetchList} enabledPullDownRefresh={false} renderItem={renderItem} />
 
         <Toast id="vanToast" />
-      </View>
+      </PageView>
     );
   }),
 );

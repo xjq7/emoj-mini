@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro';
 import { Button, Cell, CellGroup, Icon } from '@antmjs/vantui';
 import { inject, observer } from 'mobx-react';
 import { CellProps } from '@antmjs/vantui/types/cell';
+import PageView from '@components/PageView';
 import styles from './index.module.scss';
 
 const Component = inject('store')(
@@ -26,25 +27,33 @@ const Component = inject('store')(
       });
     };
 
-    const cellProps: CellProps[] = isLogin
-      ? [
-          {
-            isLink: true,
-            linkType: 'navigateTo',
-            url: '/pages/starList/index',
-            clickable: true,
-          },
-          {
-            isLink: true,
-            linkType: 'navigateTo',
-            url: '/pages/visitList/index',
-            clickable: true,
-          },
-        ]
-      : [{}];
+    // @ts-ignore
+    const cellProps: CellProps[] = [
+      {
+        isLink: true,
+        linkType: 'navigateTo',
+        url: '/pages/starList/index',
+        clickable: true,
+        title: '我的点赞',
+      },
+      {
+        isLink: true,
+        linkType: 'navigateTo',
+        url: '/pages/visitList/index',
+        clickable: true,
+        title: '我的浏览',
+      },
+      {
+        isLink: true,
+        linkType: 'navigateTo',
+        url: '/pages/favorite/index',
+        clickable: true,
+        title: '收藏夹',
+      },
+    ].map((item) => ({ ...item, isLink: isLogin, clickable: isLogin, url: isLogin ? item.url : '' }));
 
     return (
-      <View className={styles.container}>
+      <PageView className={styles.container}>
         <View className={styles.header}>
           <View className={styles.userinfo} onClick={handleLogin}>
             <Icon classPrefix="icon" size={120} name="my" />
@@ -53,15 +62,16 @@ const Component = inject('store')(
         </View>
 
         <CellGroup title="个人空间">
-          <Cell title="我的点赞" {...cellProps[0]} />
-          <Cell title="我的浏览" {...cellProps[1]} />
+          {cellProps.map((props) => (
+            <Cell key={props.title} {...props} />
+          ))}
         </CellGroup>
         {isLogin && (
           <Button className={styles.logout} type="info" size="large" onClick={handleLogout}>
             退出登录
           </Button>
         )}
-      </View>
+      </PageView>
     );
   }),
 );

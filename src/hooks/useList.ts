@@ -59,7 +59,7 @@ function useList<T>(props: Props<T>) {
     refresh();
   }, [fetchMethod]);
 
-  return { loading, refresh, loadMore, list, hasMore };
+  return { loading, refresh, loadMore, list, hasMore, pageInfo };
 }
 
 export default useList;

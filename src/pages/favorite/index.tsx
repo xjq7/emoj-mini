@@ -1,16 +1,16 @@
-import { View } from '@tarojs/components';
+import { Image, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { PageInfo } from '@utils/types';
-import { getUserVisitList } from '@services/user';
+import PageView from '@components/PageView';
+import { Tab, Tabs } from '@antmjs/vantui';
+import { getFavoriteEmojList } from '@services/user';
+import FlatList from '@components/FlatList';
 import { IEmoj } from '@interface/emoj';
 import EmojItem from '@components/EmojItem';
-import FlatList from '@components/FlatList';
-import { useCallback } from 'react';
 import styles from './index.module.scss';
 
-const Component = () => {
-  const fetchList = useCallback((data: PageInfo) => {
-    return getUserVisitList<IEmoj>(data).then((res) => ({
+function Component() {
+  const fetchList = async (o: any) => {
+    return getFavoriteEmojList<IEmoj>(o).then((res) => ({
       ...res,
       list: res.list?.reduce((acc: IEmoj[][], cur: IEmoj, index: number) => {
         if (index % 3 === 0) {
@@ -21,7 +21,7 @@ const Component = () => {
         return acc;
       }, []),
     }));
-  }, []);
+  };
 
   const renderItem = (list) => {
     return (
@@ -44,10 +44,16 @@ const Component = () => {
   };
 
   return (
-    <View className={styles.container}>
-      <FlatList<IEmoj[]> className={styles.list} fetchMethod={fetchList} renderItem={renderItem} />
-    </View>
+    <PageView>
+      <FlatList className={styles.list} fetchMethod={fetchList} renderItem={renderItem} />
+      {/* <Tabs>
+        <Tab title="表情">
+          
+        </Tab>
+        <Tab title="表情包">内容 2</Tab>
+      </Tabs> */}
+    </PageView>
   );
-};
+}
 
 export default Component;

@@ -10,6 +10,7 @@ export default defineAppConfig({
     'pages/starList/index',
     'pages/visitList/index',
     'pages/emojSearch/index',
+    'pages/favorite/index',
   ],
   window: {
     backgroundTextStyle: 'light',

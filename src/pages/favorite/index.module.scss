@@ -1,9 +1,7 @@
 @import '../../utils/theme.scss';
 
-.container {
-  background: $PageBg;
-  width: 100vw;
-  height: 100vh;
+.list{
+  height: calc(100vh - 90px);
   .item_list{
     display: flex;
     flex-direction: row;

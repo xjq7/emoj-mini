@@ -25,3 +25,11 @@ export function getEmojListByGroup<T>(data: IEmojListByGroupRequestExt): Promise
     data,
   }) as Promise<ListResponse<T>>;
 }
+
+export function postFavoriteEmoj(data: { status: number; emoj_id: number }) {
+  return request({
+    url: '/emoj/favorite',
+    method: 'POST',
+    data,
+  });
+}

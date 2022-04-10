@@ -3,7 +3,7 @@
         "miniprogram": {
             "list": [
                 {
-                    "name": "",
+                    "name": "表情详情",
                     "pathName": "pages/emojDetail/index",
                     "query": "id=47492",
                     "launchMode": "default",
@@ -24,7 +24,7 @@
                     "scene": null
                 },
                 {
-                    "name": "",
+                    "name": "搜索",
                     "pathName": "pages/emojSearch/index",
                     "query": "",
                     "launchMode": "default",
@@ -33,6 +33,13 @@
                 {
                     "name": "表情包",
                     "pathName": "pages/emojPack/index",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "收藏夹",
+                    "pathName": "pages/favorite/index",
                     "query": "",
                     "launchMode": "default",
                     "scene": null

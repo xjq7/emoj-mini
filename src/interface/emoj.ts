@@ -9,6 +9,7 @@ export interface IEmoj {
   star?: number;
   visit?: number;
   isStar?: boolean;
+  isFavorite?: boolean;
 }
 
 export interface IEmojGroup {

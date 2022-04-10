@@ -21,3 +21,13 @@ export function getUserVisitList<T>(data: IUserVisitListRequest): Promise<ListRe
     data,
   }) as Promise<ListResponse<T>>;
 }
+
+interface IEmojFavoriteListRequest extends PageInfo {}
+
+export function getFavoriteEmojList<T>(data: IEmojFavoriteListRequest): Promise<ListResponse<T>> {
+  return request({
+    url: '/user/favorite-list',
+    method: 'GET',
+    data,
+  }) as Promise<ListResponse<T>>;
+}

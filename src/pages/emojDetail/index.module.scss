@@ -1,9 +1,6 @@
 @import '../../utils/theme.scss';
 
 .container {
-  background-color: $PageBg;
-  width: 100%;
-  height: 100vh;
   .header {
     width: 750px;
     padding: 20px 0 20px 0x;
@@ -44,9 +41,9 @@
     color: $Primary;
   }
 
-  .list {
+  .item_list{
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
 }

@@ -1,9 +1,6 @@
 @import '../../utils/theme.scss';
 
 .container {
-  width: 100vw;
-  height: 100vh;
-  background: $PageBg;
   padding-top: 106px;
   .search {
     width: 100%;
@@ -11,11 +8,9 @@
     position: fixed;
     z-index: 999;
   }
-
-  .list {
-    width: 100%;
+  .item_list{
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
 }

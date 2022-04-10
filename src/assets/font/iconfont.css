@@ -1,33 +1,47 @@
 @font-face {
-  font-family: 'iconfont'; /* Project id 3281936 */
-  src: url('iconfont.woff2?t=1648483516778') format('woff2'), url('iconfont.woff?t=1648483516778') format('woff'),
-    url('iconfont.ttf?t=1648483516778') format('truetype');
+  font-family: "iconfont"; /* Project id 3281936 */
+  src: url('iconfont.woff2?t=1649499190479') format('woff2'),
+       url('iconfont.woff?t=1649499190479') format('woff'),
+       url('iconfont.ttf?t=1649499190479') format('truetype');
 }
 
 .icon {
-  font-family: 'iconfont' !important;
+  font-family: "iconfont" !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-shoucangxuanzhong:before {
+  content: "\e62b";
+}
+
+.icon-shoucang_o:before {
+  content: "\ebae";
+}
+
+.icon-xiazai-wenjianxiazai-07:before {
+  content: "\e855";
+}
+
 .icon-iconfontzhizuobiaozhun023131:before {
-  content: '\e685';
+  content: "\e685";
 }
 
 .icon-sousuo:before {
-  content: '\e6b9';
+  content: "\e6b9";
 }
 
 .icon-sousuo1:before {
-  content: '\e60a';
+  content: "\e60a";
 }
 
 .icon-sousuo2:before {
-  content: '\e60d';
+  content: "\e60d";
 }
 
 .icon-my:before {
-  content: '\e66f';
+  content: "\e66f";
 }
+

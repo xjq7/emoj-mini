@@ -4,10 +4,9 @@
   background: $PageBg;
   width: 100vw;
   height: 100vh;
-  .list {
-    width: 100%;
+  .item_list{
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
 }

@@ -1,10 +1,8 @@
-import Taro, { usePullDownRefresh, useReachBottom } from '@tarojs/taro';
-import { View } from '@tarojs/components';
+import { useReachBottom } from '@tarojs/taro';
 import useList from '@hooks/useList';
 import { ListResponse } from '@interface/common';
-import ListFooter from '@components/ListFooter';
 import classnames from 'classnames';
-import { useEffect } from 'react';
+import { PowerScrollView } from '@antmjs/vantui';
 import styles from './index.module.scss';
 
 interface Props<T> {
@@ -19,42 +17,29 @@ interface Props<T> {
 }
 
 function Component<T>(props: Props<T>) {
-  const {
-    fetchMethod,
-    renderItem,
-    style,
-    className,
-    autoGoToTop = true,
-    enabledPullDownRefresh = true,
-    containerStyle = {},
-  } = props;
-  const { list, loadMore, loading, hasMore, refresh } = useList<T>({ fetchMethod });
+  const { fetchMethod, renderItem, style, className, ...restProps } = props;
+  const { list, loadMore, loading, refresh, hasMore, pageInfo } = useList<T>({ fetchMethod });
 
   useReachBottom(() => {
     loadMore();
   });
 
-  usePullDownRefresh(() => {
-    if (enabledPullDownRefresh) refresh();
-  });
-
-  useEffect(() => {
-    if (autoGoToTop) {
-      Taro.pageScrollTo({
-        scrollTop: 0,
-      });
-    }
-  }, [fetchMethod]);
-
   return (
-    <View className={classnames(styles.container, containerStyle)}>
-      <View className={classnames(styles.list, className)} style={style}>
-        {list.map((item: T, index) => {
-          return renderItem(item, index);
-        })}
-      </View>
-      <ListFooter hasMore={hasMore} loading={loading} />
-    </View>
+    <PowerScrollView
+      className={classnames(styles.container, className)}
+      style={style}
+      finishedText="到底了"
+      successText="刷新成功"
+      onScrollToUpper={refresh}
+      onScrollToLower={loadMore}
+      current={list.length}
+      finished={!hasMore}
+      total={pageInfo.total}
+      pageSize={pageInfo.pageSize}
+      {...restProps}
+    >
+      {list.map((item, i) => renderItem(item, i))}
+    </PowerScrollView>
   );
 }
 

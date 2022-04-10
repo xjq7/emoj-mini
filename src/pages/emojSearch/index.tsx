@@ -6,6 +6,7 @@ import { getEmojList } from '@services/emoj';
 import { IEmoj } from '@interface/emoj';
 import EmojItem from '@components/EmojItem';
 import FlatList from '@components/FlatList';
+import PageView from '@components/PageView';
 import styles from './index.module.scss';
 
 const Component = () => {
@@ -14,7 +15,17 @@ const Component = () => {
 
   const fetchList = useCallback(
     (data) => {
-      return getEmojList({ ...data, ...listParams });
+      return getEmojList({ ...data, ...listParams }).then((res) => ({
+        ...res,
+        list: res.list?.reduce((acc: IEmoj[][], cur: IEmoj, index: number) => {
+          if (index % 3 === 0) {
+            acc.push([cur]);
+          } else {
+            acc[acc.length - 1].push(cur);
+          }
+          return acc;
+        }, []),
+      }));
     },
     [listParams],
   );
@@ -31,8 +42,28 @@ const Component = () => {
     setListParamsd(params);
   };
 
+  const renderItem = (list) => {
+    return (
+      <View className={styles.item_list}>
+        {list.map((item) => {
+          return (
+            <EmojItem
+              key={item.id}
+              {...item}
+              onPress={() => {
+                Taro.navigateTo({
+                  url: '/pages/emojDetail/index?id=' + item.id,
+                });
+              }}
+            ></EmojItem>
+          );
+        })}
+      </View>
+    );
+  };
+
   return (
-    <View className={styles.container}>
+    <PageView className={styles.container}>
       <View className={styles.search}>
         <Search
           value={keyword}
@@ -42,22 +73,8 @@ const Component = () => {
           renderAction={<View onClick={handleSearch}>搜索</View>}
         />
       </View>
-
-      <FlatList<IEmoj>
-        className={styles.list}
-        fetchMethod={fetchList}
-        renderItem={(item) => (
-          <EmojItem
-            {...item}
-            onPress={() => {
-              Taro.navigateTo({
-                url: '/pages/emojDetail/index?id=' + item.id,
-              });
-            }}
-          />
-        )}
-      />
-    </View>
+      <FlatList<IEmoj[]> fetchMethod={fetchList} renderItem={renderItem} />
+    </PageView>
   );
 };
 

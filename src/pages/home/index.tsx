@@ -3,7 +3,7 @@ import Taro, { useShareAppMessage } from '@tarojs/taro';
 import { useCallback, useState } from 'react';
 import { observer, inject } from 'mobx-react';
 import themeMap from '@utils/theme';
-import { Icon } from '@antmjs/vantui';
+import { Icon, Tabs, Tab } from '@antmjs/vantui';
 import FlatList from '@components/FlatList';
 import { IEmoj } from '@interface/emoj';
 import EmojItem from '@components/EmojItem';
@@ -18,21 +18,26 @@ interface Index {
   props: PageStateProps;
 }
 
-enum Tab {
+enum TabType {
   hot = 'hot',
   new = 'new',
 }
 
 const Index = inject('store')(
   observer((props) => {
-    const [currentTab, setCurrentTab] = useState<Tab>(Tab.hot);
-
-    const fetchList = useCallback(
-      async (data: any) => {
-        return getEmojList({ ...data, type: currentTab });
-      },
-      [currentTab],
-    );
+    const fetchList = async (data: any) => {
+      return getEmojList({ ...data }).then((res) => ({
+        ...res,
+        list: res.list?.reduce((acc: IEmoj[][], cur: IEmoj, index: number) => {
+          if (index % 3 === 0) {
+            acc.push([cur]);
+          } else {
+            acc[acc.length - 1].push(cur);
+          }
+          return acc;
+        }, []),
+      }));
+    };
 
     useShareAppMessage((res) => {
       if (res.from === 'button') {
@@ -45,46 +50,44 @@ const Index = inject('store')(
       };
     });
 
+    const renderItem = (list) => {
+      return (
+        <View className={styles.item_list}>
+          {list.map((item) => {
+            return (
+              <EmojItem
+                key={item.id}
+                {...item}
+                onPress={() => {
+                  Taro.navigateTo({
+                    url: '/pages/emojDetail/index?id=' + item.id,
+                  });
+                }}
+              ></EmojItem>
+            );
+          })}
+        </View>
+      );
+    };
+
     return (
       <View className={styles.container}>
-        <View className={styles.tabs}>
-          <View className={styles.tab}>
-            <Text
-              className={styles.label}
-              style={{ borderColor: currentTab === Tab.hot ? themeMap.$Primary : themeMap.$White }}
-              onClick={() => {
-                setCurrentTab(Tab.hot);
-              }}
-            >
-              热门
-            </Text>
-          </View>
-          <View className={styles.tab}>
-            <Text
-              className={styles.label}
-              style={{ borderColor: currentTab === Tab.new ? themeMap.$Primary : themeMap.$White }}
-              onClick={() => {
-                setCurrentTab(Tab.new);
-              }}
-            >
-              最新
-            </Text>
-          </View>
-        </View>
-        <FlatList<IEmoj>
-          className={styles.list}
-          fetchMethod={fetchList}
-          renderItem={(item) => (
-            <EmojItem
-              {...item}
-              onPress={() => {
-                Taro.navigateTo({
-                  url: '/pages/emojDetail/index?id=' + item.id,
-                });
-              }}
+        <Tabs>
+          <Tab title="最新">
+            <FlatList
+              className={styles.list}
+              fetchMethod={(o) => fetchList({ ...o, type: TabType.new })}
+              renderItem={renderItem}
             />
-          )}
-        />
+          </Tab>
+          <Tab title="最热">
+            <FlatList
+              className={styles.list}
+              fetchMethod={(o) => fetchList({ ...o, type: TabType.hot })}
+              renderItem={renderItem}
+            />
+          </Tab>
+        </Tabs>
         <View
           className={styles.search}
           onClick={() => {
