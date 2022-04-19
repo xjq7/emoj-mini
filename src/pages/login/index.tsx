@@ -1,4 +1,4 @@
-import { View } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { Field, Button, Toast } from '@antmjs/vantui';
 import request from '@utils/request';
@@ -112,6 +112,7 @@ const Component = inject('store')(
           /> */}
         </View>
         <View className={styles.submit_wrap}>
+          <Text className={styles.prompt}>登录即注册</Text>
           <Button type="info" size="large" className={styles.submit} onClick={onSubmit}>
             登录/注册
           </Button>
