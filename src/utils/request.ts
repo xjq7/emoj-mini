@@ -22,13 +22,12 @@ const request = ({ url, method, data, header = {}, timeout = 10000 }) => {
       timeout,
       success: (res) => {
         const { code, message } = res.data;
-
         if (code === 2) {
-          userStore.logout();
-          Taro.navigateTo({
-            url: '/pages/login/index',
-          });
-          j();
+          // userStore.logout();
+          // Taro.navigateTo({
+          //   url: '/pages/login/index',
+          // });
+          // j();
           Taro.showToast({
             title: message,
             icon: 'error',

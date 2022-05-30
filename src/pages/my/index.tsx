@@ -22,9 +22,6 @@ const Component = inject('store')(
 
     const handleLogin = () => {
       if (isLogin) return;
-      Taro.navigateTo({
-        url: '/pages/login/index',
-      });
     };
 
     // @ts-ignore

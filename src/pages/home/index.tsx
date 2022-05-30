@@ -1,6 +1,5 @@
-import { View, Text } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import Taro, { useShareAppMessage } from '@tarojs/taro';
-import { useCallback, useState } from 'react';
 import { observer, inject } from 'mobx-react';
 import themeMap from '@utils/theme';
 import { Icon, Tabs, Tab } from '@antmjs/vantui';

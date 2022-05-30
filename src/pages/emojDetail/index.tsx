@@ -137,51 +137,39 @@ const Component = inject('store')(
     };
 
     const handleStar = async () => {
-      if (!isLogin) {
-        Taro.navigateTo({
-          url: '/pages/login/index',
+      Taro.showLoading({
+        title: '处理中...',
+      });
+      try {
+        await request({
+          url: '/emoj/star',
+          method: 'POST',
+          data: {
+            emoj_id: emojId,
+          },
         });
-      } else {
-        Taro.showLoading({
-          title: '处理中...',
-        });
-        try {
-          await request({
-            url: '/emoj/star',
-            method: 'POST',
-            data: {
-              emoj_id: emojId,
-            },
-          });
-          Toast.show({ message: isStar ? '取消点赞成功' : '点赞成功' });
-          refresh();
-        } catch (error) {
-        } finally {
-          Taro.hideLoading();
-        }
+        Toast.show({ message: isStar ? '取消点赞成功' : '点赞成功' });
+        refresh();
+      } catch (error) {
+      } finally {
+        Taro.hideLoading();
       }
     };
 
     const handleFavorite = async () => {
-      if (!isLogin) {
-        Taro.navigateTo({
-          url: '/pages/login/index',
+      Taro.showLoading({
+        title: '处理中...',
+      });
+      try {
+        await postFavoriteEmoj({
+          emoj_id: emojId,
+          status: isFavorite ? 0 : 1,
         });
-      } else {
-        Taro.showLoading({
-          title: '处理中...',
-        });
-        try {
-          await postFavoriteEmoj({
-            emoj_id: emojId,
-            status: isFavorite ? 0 : 1,
-          });
-          Toast.show({ message: isFavorite ? '已取消收藏' : '已收藏' });
-          refresh();
-        } catch (error) {
-        } finally {
-          Taro.hideLoading();
-        }
+        Toast.show({ message: isFavorite ? '已取消收藏' : '已收藏' });
+        refresh();
+      } catch (error) {
+      } finally {
+        Taro.hideLoading();
       }
     };
 

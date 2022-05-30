@@ -4,14 +4,14 @@ export default defineAppConfig({
   pages: [
     'pages/home/index',
     'pages/my/index',
-    'pages/login/index',
+    // 'pages/login/index',
     'pages/emojDetail/index',
     'pages/emojPack/index',
     'pages/starList/index',
     'pages/visitList/index',
     'pages/emojSearch/index',
     'pages/favorite/index',
-    'pages/feedback/index',
+    // 'pages/feedback/index',
   ],
   window: {
     backgroundTextStyle: 'light',
