@@ -36,6 +36,7 @@ function Component<T>(props: Props<T>) {
       finished={!hasMore}
       total={pageInfo.total}
       pageSize={pageInfo.pageSize}
+      emptyDescription="空空如也~"
       {...restProps}
     >
       {list.map((item, i) => renderItem(item, i))}
