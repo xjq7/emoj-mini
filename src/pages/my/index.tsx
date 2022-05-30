@@ -1,6 +1,5 @@
 import { Text, View } from '@tarojs/components';
-import Taro from '@tarojs/taro';
-import { Button, Cell, CellGroup, Icon } from '@antmjs/vantui';
+import { Cell, CellGroup, Icon } from '@antmjs/vantui';
 import { inject, observer } from 'mobx-react';
 import { CellProps } from '@antmjs/vantui/types/cell';
 import PageView from '@components/PageView';
@@ -11,14 +10,10 @@ const Component = inject('store')(
     const {
       store: { userStore },
     } = props;
-    const { logout, isLogin, userInfo } = userStore;
+    const { isLogin, userInfo } = userStore;
     console.log(userStore);
 
     const { name = '登录/注册' } = userInfo;
-
-    const handleLogout = () => {
-      logout();
-    };
 
     const handleLogin = () => {
       if (isLogin) return;
@@ -70,11 +65,6 @@ const Component = inject('store')(
             <Cell key={props.title} {...props} />
           ))}
         </CellGroup>
-        {isLogin && (
-          <Button className={styles.logout} type="info" size="large" onClick={handleLogout}>
-            退出登录
-          </Button>
-        )}
       </PageView>
     );
   }),
