@@ -1,4 +1,5 @@
 import { ListResponse } from '@interface/common';
+import { IUser } from '@interface/user';
 import request from '@utils/request';
 import { PageInfo } from '@utils/types';
 
@@ -30,4 +31,22 @@ export function getFavoriteEmojList<T>(data: IEmojFavoriteListRequest): Promise<
     method: 'GET',
     data,
   }) as Promise<ListResponse<T>>;
+}
+
+export function login({ code }: { code: string }) {
+  return request({
+    url: '/user/login',
+    method: 'POST',
+    data: {
+      code,
+    },
+  });
+}
+
+export function updateUserInfo(data: IUser) {
+  return request({
+    url: '/user',
+    method: 'PUT',
+    data,
+  });
 }

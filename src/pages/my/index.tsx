@@ -1,8 +1,11 @@
 import { Text, View } from '@tarojs/components';
-import { Cell, CellGroup, Icon } from '@antmjs/vantui';
+import Taro from '@tarojs/taro';
+import { Cell, CellGroup, Image } from '@antmjs/vantui';
 import { inject, observer } from 'mobx-react';
 import { CellProps } from '@antmjs/vantui/types/cell';
 import PageView from '@components/PageView';
+import { login } from '@utils/user';
+import { defaultAvatar } from '@utils/config';
 import styles from './index.module.scss';
 
 const Component = inject('store')(
@@ -11,12 +14,22 @@ const Component = inject('store')(
       store: { userStore },
     } = props;
     const { isLogin, userInfo } = userStore;
-    console.log(userStore);
 
-    const { name = '登录/注册' } = userInfo;
+    const { name = '登录', avatar = defaultAvatar } = userInfo;
 
-    const handleLogin = () => {
-      if (isLogin) return;
+    const handleUpdateUserInfo = () => {
+      return;
+      if (isLogin) {
+        Taro.navigateTo({ url: '/pages/userInfo/index' });
+        return;
+      }
+      Taro.showLoading();
+      try {
+        login();
+      } catch (error) {
+      } finally {
+        Taro.hideLoading();
+      }
     };
 
     // @ts-ignore
@@ -54,8 +67,8 @@ const Component = inject('store')(
     return (
       <PageView className={styles.container}>
         <View className={styles.header}>
-          <View className={styles.userinfo} onClick={handleLogin}>
-            <Icon classPrefix="icon" size={120} name="my" />
+          <View className={styles.userinfo} onClick={handleUpdateUserInfo}>
+            <Image src={avatar} radius={75} width={150} height={150} />
             <Text className={styles.name}>{name}</Text>
           </View>
         </View>

@@ -1,0 +1,19 @@
+@import '../../utils/theme.scss';
+.container {
+  .avatar_wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    margin: 30px auto;
+    border-radius: 50%;
+  }
+  .confirm {
+    width: 690px;
+    margin: 50px 30px 0 30px;
+  }
+}

@@ -12,6 +12,11 @@ class UserStore {
   }
 
   @action.bound
+  updateUserInfo(userInfo = {}) {
+    this.userInfo = { ...this.userInfo, ...userInfo };
+  }
+
+  @action.bound
   logout() {
     Taro.clearStorageSync();
     this.isLogin = false;

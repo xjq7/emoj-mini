@@ -15,7 +15,6 @@ interface Props {
 
 const Component = (props: Props) => {
   const { url = '', star, visit, onPress, isSelect = false, className } = props;
-
   return (
     <View
       className={classnames(styles.item, className, isSelect && styles.isSelect)}
