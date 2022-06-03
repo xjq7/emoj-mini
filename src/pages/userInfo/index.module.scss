@@ -5,15 +5,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    .avatar_prompt {
+      font-size: 20px;
+      color: $BlackL;
+      margin: 20px 0;
+    }
+    .avatar {
+      width: 200px;
+      height: 200px;
+      margin-top: 30px;
+      border-radius: 50%;
+      border: 1px solid $White;
+    }
   }
-  .avatar {
-    width: 100px;
-    height: 100px;
-    margin: 30px auto;
-    border-radius: 50%;
-  }
+
   .confirm {
     width: 690px;
-    margin: 50px 30px 0 30px;
+    margin: 30px 30px 0 30px;
   }
 }

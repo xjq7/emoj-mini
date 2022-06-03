@@ -1,22 +1,26 @@
-import { View } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { Button, Field, Image } from '@antmjs/vantui';
 import PageView from '@components/PageView';
 import { useState } from 'react';
 import { updateUserInfo as updateUserInfoService } from '@services/user';
 import { inject } from 'mobx-react';
-import { URL } from '@utils/config';
+import { defaultAvatar, URL } from '@utils/config';
 import styles from './index.module.scss';
 
 const Component = inject('store')((props) => {
   const {
     store: { userStore },
   } = props;
-  const { updateUserInfo } = userStore;
-  const [name, setName] = useState('');
-  const [avatar, setAvatar] = useState('');
+  const { updateUserInfo, userInfo } = userStore;
+
+  const { avatar: _defaultAvatar = defaultAvatar, name: defaultName } = userInfo;
+
+  const [name, setName] = useState(defaultName);
+  const [avatar, setAvatar] = useState(_defaultAvatar);
 
   const handleAvatar = () => {
+    const token = Taro.getStorageSync('token');
     Taro.chooseMedia({
       count: 1,
       sizeType: ['compressed'],
@@ -24,16 +28,25 @@ const Component = inject('store')((props) => {
       sourceType: ['album', 'camera'],
       camera: 'back',
       success(res) {
-        console.log(res.tempFiles[0].tempFilePath);
         Taro.uploadFile({
-          url: URL + '/bucket',
+          url: URL + '/emoj/upload',
           filePath: res.tempFiles[0].tempFilePath,
           name: 'file',
-          success: function (res) {
-            console.log(res);
-
-            // const { url } = JSON.parse(res.data);
-            // setAvatar(url);
+          header: {
+            Authorization: `Bearer ${token}`,
+          },
+          success: function (res: any) {
+            const result = JSON.parse(res.data);
+            const { data, code, message } = result;
+            if (!code) {
+              const { url } = data;
+              setAvatar(url);
+              return;
+            }
+            Taro.showToast({
+              title: message,
+              icon: 'error',
+            });
           },
         });
       },
@@ -49,6 +62,7 @@ const Component = inject('store')((props) => {
     try {
       const user = await updateUserInfoService({ avatar, name });
       updateUserInfo(user);
+      Taro.showToast({ title: '修改成功!', icon: 'success' });
       setTimeout(() => {
         Taro.navigateBack();
       }, 1000);
@@ -61,9 +75,9 @@ const Component = inject('store')((props) => {
   return (
     <PageView className={styles.container}>
       <View className={styles.avatar_wrap}>
-        <Image className={styles.avatar} src={avatar} onClick={handleAvatar} />
+        <Image className={styles.avatar} src={avatar} radius={100} onClick={handleAvatar} />
+        <Text className={styles.avatar_prompt}>点击头像可切换</Text>
       </View>
-      <View className={styles.avatar}></View>
       <Field
         //@ts-ignore
         type="nickname"

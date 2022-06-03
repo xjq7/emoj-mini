@@ -18,10 +18,17 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      .avatar {
+        border: 1px solid $White;
+      }
+      .userInfo_prompt {
+        font-size: 20px;
+        color: $BlackL;
+        margin: 15px 0 5px 0;
+      }
       .name {
         width: 320px;
         font-size: 36px;
-        margin-top: 20px;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;

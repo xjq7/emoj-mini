@@ -18,7 +18,6 @@ const Component = inject('store')(
     const { name = '登录', avatar = defaultAvatar } = userInfo;
 
     const handleUpdateUserInfo = () => {
-      return;
       if (isLogin) {
         Taro.navigateTo({ url: '/pages/userInfo/index' });
         return;
@@ -68,7 +67,8 @@ const Component = inject('store')(
       <PageView className={styles.container}>
         <View className={styles.header}>
           <View className={styles.userinfo} onClick={handleUpdateUserInfo}>
-            <Image src={avatar} radius={75} width={150} height={150} />
+            <Image src={avatar} className={styles.avatar} radius={100} width={200} height={200} />
+            <Text className={styles.userInfo_prompt}>点击修改个人信息</Text>
             <Text className={styles.name}>{name}</Text>
           </View>
         </View>
