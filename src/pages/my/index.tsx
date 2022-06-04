@@ -67,7 +67,7 @@ const Component = inject('store')(
       <PageView className={styles.container}>
         <View className={styles.header}>
           <View className={styles.userinfo} onClick={handleUpdateUserInfo}>
-            <Image src={avatar} className={styles.avatar} radius={100} width={200} height={200} />
+            <Image src={avatar} className={styles.avatar} radius={100} width={200} height={200} fit="cover" round />
             <Text className={styles.userInfo_prompt}>点击修改个人信息</Text>
             <Text className={styles.name}>{name}</Text>
           </View>

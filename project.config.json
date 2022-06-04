@@ -43,7 +43,8 @@
         "showES6CompileOption": false,
         "useCompilerPlugins": false,
         "ignoreUploadUnusedFiles": true,
-        "useStaticServer": true
+        "useStaticServer": true,
+        "minifyWXML": false
     },
     "compileType": "miniprogram",
     "libVersion": "2.17.0",

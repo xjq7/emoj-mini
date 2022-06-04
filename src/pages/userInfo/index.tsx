@@ -75,7 +75,7 @@ const Component = inject('store')((props) => {
   return (
     <PageView className={styles.container}>
       <View className={styles.avatar_wrap}>
-        <Image className={styles.avatar} src={avatar} radius={100} onClick={handleAvatar} />
+        <Image className={styles.avatar} src={avatar} radius={100} onClick={handleAvatar} fit="cover" round />
         <Text className={styles.avatar_prompt}>点击头像可切换</Text>
       </View>
       <Field
