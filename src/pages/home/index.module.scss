@@ -3,22 +3,9 @@
 .container {
   width: 100%;
   height: 100vh;
-  .search {
-    width: 104px;
-    height: 104px;
-    border-radius: 50%;
-    background: $Blue;
-    z-index: 999;
-    position: fixed;
-    bottom: 100px;
-    right: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .list{
+  .list {
     height: calc(100vh - 90px);
-    .item_list{
+    .item_list {
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;

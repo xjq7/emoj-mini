@@ -1,0 +1,13 @@
+@import '../../utils/theme.scss';
+
+.container {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  background: $Blue;
+  z-index: 999;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

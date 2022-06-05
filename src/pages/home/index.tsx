@@ -7,6 +7,7 @@ import FlatList from '@components/FlatList';
 import { IEmoj } from '@interface/emoj';
 import EmojItem from '@components/EmojItem';
 import { getEmojList } from '@services/emoj';
+import ActionButton from '@components/ActionButton';
 import styles from './index.module.scss';
 
 type PageStateProps = {
@@ -87,14 +88,15 @@ const Index = inject('store')(
             />
           </Tab>
         </Tabs>
-        <View
-          className={styles.search}
-          onClick={() => {
+
+        <ActionButton
+          icon="iconfontzhizuobiaozhun023131"
+          right={30}
+          bottom={50}
+          onPress={() => {
             Taro.navigateTo({ url: '/pages/emojSearch/index' });
           }}
-        >
-          <Icon classPrefix="icon" name="iconfontzhizuobiaozhun023131" size={50} color={themeMap.$White} />
-        </View>
+        />
       </View>
     );
   }),
