@@ -79,7 +79,7 @@ export function shareImage(url: string) {
     resolve(url);
   }).then((url) => {
     Taro.downloadFile({
-      url: url.replace('https://', 'http://'),
+      url,
       success: (res) => {
         Taro.showShareImageMenu({
           path: res.tempFilePath,

@@ -1,7 +1,8 @@
 import Taro from '@tarojs/taro';
 import { action, observable } from 'mobx';
 
-const initWatermark = Taro.getStorageSync('config_watermark');
+let initWatermark = Taro.getStorageSync('config_watermark');
+if (initWatermark === '') initWatermark = true;
 
 class ConfigStore {
   @observable watermark = initWatermark;
