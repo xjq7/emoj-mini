@@ -54,13 +54,13 @@ const Component = inject('store')(
         clickable: true,
         title: '收藏夹',
       },
-      {
-        isLink: true,
-        linkType: 'navigateTo',
-        url: '/pages/feedback/index',
-        clickable: true,
-        title: '反馈中心',
-      },
+      // {
+      //   isLink: true,
+      //   linkType: 'navigateTo',
+      //   url: '/pages/feedback/index',
+      //   clickable: true,
+      //   title: '反馈中心',
+      // },
       {
         isLink: true,
         linkType: 'navigateTo',

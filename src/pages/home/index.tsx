@@ -1,8 +1,7 @@
 import { View } from '@tarojs/components';
 import Taro, { useShareAppMessage } from '@tarojs/taro';
 import { observer, inject } from 'mobx-react';
-import themeMap from '@utils/theme';
-import { Icon, Tabs, Tab } from '@antmjs/vantui';
+import { Tabs, Tab } from '@antmjs/vantui';
 import FlatList from '@components/FlatList';
 import { IEmoj } from '@interface/emoj';
 import EmojItem from '@components/EmojItem';

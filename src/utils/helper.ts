@@ -83,9 +83,6 @@ export function shareImage(url: string) {
       success: (res) => {
         Taro.showShareImageMenu({
           path: res.tempFilePath,
-          fail(err) {
-            throw new Error(err.errMsg);
-          },
         });
       },
     });
