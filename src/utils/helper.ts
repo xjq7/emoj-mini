@@ -34,9 +34,24 @@ export function watermark(url: string, text: string) {
     Taro.getImageInfo({
       src: url,
       success(res) {
-        console.log(res.width);
-        console.log(res.height);
-        const size = 20;
+        const { width } = res;
+        let size = 20;
+        if (width >= 500) {
+          size = 28;
+        } else if (width >= 400) {
+          size = 24;
+        } else if (width >= 300) {
+          size = 20;
+        } else if (width >= 200) {
+          size = 14;
+        } else if (width >= 150) {
+          size = 10;
+        } else if (width >= 100) {
+          size = 7;
+        } else {
+          resolve(url);
+          return;
+        }
         const color = '9399a5';
         resolve(
           `${url}?x-oss-process=image/watermark,text_${text},size_${size},type_ZmFuZ3poZW5naGVpdGk,color_${color}`,
