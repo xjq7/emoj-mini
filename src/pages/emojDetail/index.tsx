@@ -206,7 +206,9 @@ const Component = () => {
         </View>
       </View>
       <View style={{ height: 214 }} />
-      <FlatList<IEmoj[]> fetchMethod={fetchList} enabledPullDownRefresh={false} renderItem={renderItem} />
+      <View>
+        <FlatList<IEmoj[]> fetchMethod={fetchList} enabledPullDownRefresh={false} renderItem={renderItem} />
+      </View>
       <Toast id="vanToast" />
     </PageView>
   );
