@@ -3,62 +3,63 @@
 .container {
   .header {
     width: 750px;
-    padding: 10px 0 20px 0;
     position: fixed;
     z-index: 999;
     background-color: $White;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    .logo {
-      width: 300px;
-      height: 300px;
-      border-radius: 20px;
-      border: 1px solid $Divider;
-    }
-    .info_wrap{
-      padding-left: 30px;
-      .info{
-        display: flex;
-        flex-direction: column;
-        .name{
-          width: 360px;
-          font-size: 32px;
-          font-weight: 500;
-          line-height: 60px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .author{
-          font-size: 26px;
-          color: $BlackL;
-          line-height: 46px;
-        }
-        .createdAt{
-          font-size: 26px;
-          color: $BlackL;
-          line-height: 46px;
-        }
-      }
-      .operator {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
+    .header_content {
+      padding: 16px 0 20px 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      .logo {
         width: 300px;
-        height: 80px;
-        .download {
-          border-radius: 10px;
-          margin-top: 20px;
+        height: 300px;
+        border-radius: 20px;
+        border: 1px solid $Divider;
+      }
+      .info_wrap {
+        padding-left: 30px;
+        .info {
+          display: flex;
+          flex-direction: column;
+          .name {
+            width: 360px;
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 60px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .author {
+            font-size: 26px;
+            color: $BlackL;
+            line-height: 46px;
+          }
+          .createdAt {
+            font-size: 26px;
+            color: $BlackL;
+            line-height: 46px;
+          }
         }
-        .share {
-          border-radius: 10px;
+        .operator {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: center;
+          width: 300px;
+          height: 80px;
+          .download {
+            border-radius: 10px;
+            margin-top: 20px;
+          }
+          .share {
+            border-radius: 10px;
+          }
         }
       }
     }
-    
   }
 
   .like_icon {
@@ -68,7 +69,7 @@
     color: $Primary;
   }
 
-  .item_list{
+  .item_list {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;

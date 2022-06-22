@@ -172,40 +172,41 @@ const Component = () => {
 
   return (
     <PageView className={styles.container}>
-      <NoticeBar scrollable text="分享与下载已开启水印，进入我的页面-基础设置中可关闭" speed={60} />
       <View className={styles.header}>
-        <Image className={styles.logo} mode="aspectFit" src={url} />
-        <View className={styles.info_wrap}>
-          <View className={styles.info}>
-            <Text className={styles.name}>{name}</Text>
-            <Text className={styles.author}>作者: {author}</Text>
-            <Text className={styles.createdAt}>创建时间: {dayjs(createdAt).format('YYYY.MM.DD')}</Text>
-          </View>
-          <View className={styles.operator}>
-            {isStar ? (
-              <Icon name="like" color={themeMap.$Primary} size={48} onClick={handleStar} />
-            ) : (
-              <Icon name="like-o" size={48} onClick={handleStar} />
-            )}
-            <Icon name="share-o" size={50} onClick={() => handleShare(url)} />
-            {isFavorite ? (
-              <Icon
-                classPrefix="icon"
-                color={themeMap.$Primary}
-                name="shoucangxuanzhong"
-                size={54}
-                onClick={handleFavorite}
-              />
-            ) : (
-              <Icon classPrefix="icon" name="shoucang_o" size={54} onClick={handleFavorite} />
-            )}
-            <Icon classPrefix="icon" name="xiazai-wenjianxiazai-07" size={46} onClick={() => handleDownload(url)} />
+        <NoticeBar scrollable text="分享与下载已开启水印，进入我的页面-基础设置中可关闭" speed={60} />
+        <View className={styles.header_content}>
+          <Image className={styles.logo} mode="aspectFit" src={url} />
+          <View className={styles.info_wrap}>
+            <View className={styles.info}>
+              <Text className={styles.name}>{name}</Text>
+              <Text className={styles.author}>作者: {author}</Text>
+              <Text className={styles.createdAt}>创建时间: {dayjs(createdAt).format('YYYY.MM.DD')}</Text>
+            </View>
+            <View className={styles.operator}>
+              {isStar ? (
+                <Icon name="like" color={themeMap.$Primary} size={48} onClick={handleStar} />
+              ) : (
+                <Icon name="like-o" size={48} onClick={handleStar} />
+              )}
+              <Icon name="share-o" size={50} onClick={() => handleShare(url)} />
+              {isFavorite ? (
+                <Icon
+                  classPrefix="icon"
+                  color={themeMap.$Primary}
+                  name="shoucangxuanzhong"
+                  size={54}
+                  onClick={handleFavorite}
+                />
+              ) : (
+                <Icon classPrefix="icon" name="shoucang_o" size={54} onClick={handleFavorite} />
+              )}
+              <Icon classPrefix="icon" name="xiazai-wenjianxiazai-07" size={46} onClick={() => handleDownload(url)} />
+            </View>
           </View>
         </View>
       </View>
-      <View style={{ height: 176 }} />
+      <View style={{ height: 214 }} />
       <FlatList<IEmoj[]> fetchMethod={fetchList} enabledPullDownRefresh={false} renderItem={renderItem} />
-
       <Toast id="vanToast" />
     </PageView>
   );
