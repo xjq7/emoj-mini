@@ -11,7 +11,8 @@ export default defineAppConfig({
     'pages/visitList/index',
     'pages/emojSearch/index',
     'pages/favorite/index',
-    // 'pages/feedback/index',
+    'pages/feedback/index',
+    'pages/setting/index',
   ],
   window: {
     backgroundTextStyle: 'light',
