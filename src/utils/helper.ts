@@ -3,16 +3,16 @@ import configStore from '../store/config';
 
 export function downloadImage(url: string) {
   return new Promise<string>((resolve, reject) => {
-    if (configStore.watermark) {
-      watermark(url, '5bCP5aSP55qE6KGo5oOF5YyF')
-        .then((url) => {
-          resolve(url);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-      return;
-    }
+    // if (configStore.watermark) {
+    //   watermark(url, '5bCP5aSP55qE6KGo5oOF5YyF')
+    //     .then((url) => {
+    //       resolve(url);
+    //     })
+    //     .catch((error) => {
+    //       reject(error);
+    //     });
+    //   return;
+    // }
     resolve(url);
   }).then((url) => {
     Taro.downloadFile({
@@ -66,16 +66,16 @@ export function watermark(url: string, text: string) {
 
 export function shareImage(url: string) {
   return new Promise<string>((resolve, reject) => {
-    if (configStore.watermark) {
-      watermark(url, '5bCP5aSP55qE6KGo5oOF5YyF')
-        .then((url) => {
-          resolve(url);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-      return;
-    }
+    // if (configStore.watermark) {
+    //   watermark(url, '5bCP5aSP55qE6KGo5oOF5YyF')
+    //     .then((url) => {
+    //       resolve(url);
+    //     })
+    //     .catch((error) => {
+    //       reject(error);
+    //     });
+    //   return;
+    // }
     resolve(url);
   }).then((url) => {
     Taro.downloadFile({
