@@ -1,7 +1,7 @@
 import Taro, { usePullDownRefresh, useRouter, useShareAppMessage } from '@tarojs/taro';
 import { View, Image, Text } from '@tarojs/components';
 import { useCallback, useEffect, useState } from 'react';
-import { Icon, NoticeBar, Toast } from '@antmjs/vantui';
+import { Icon, Toast } from '@antmjs/vantui';
 import request from '@utils/request';
 import themeMap from '@utils/theme';
 import { IEmoj } from '@interface/emoj';
@@ -173,7 +173,6 @@ const Component = () => {
   return (
     <PageView className={styles.container}>
       <View className={styles.header}>
-        <NoticeBar scrollable text="分享与下载已开启水印，进入我的页面-基础设置中可关闭" speed={60} />
         <View className={styles.header_content}>
           <Image className={styles.logo} mode="aspectFit" src={url} />
           <View className={styles.info_wrap}>
@@ -205,7 +204,7 @@ const Component = () => {
           </View>
         </View>
       </View>
-      <View style={{ height: 214 }} />
+      <View style={{ height: 190 }} />
       <View>
         <FlatList<IEmoj[]> fetchMethod={fetchList} enabledPullDownRefresh={false} renderItem={renderItem} />
       </View>

@@ -61,13 +61,13 @@ const Component = inject('store')(
       //   clickable: true,
       //   title: '反馈中心',
       // },
-      {
-        isLink: true,
-        linkType: 'navigateTo',
-        url: '/pages/setting/index',
-        clickable: true,
-        title: '基础设置',
-      },
+      // {
+      //   isLink: true,
+      //   linkType: 'navigateTo',
+      //   url: '/pages/setting/index',
+      //   clickable: true,
+      //   title: '基础设置',
+      // },
     ].map((item) => ({ ...item, isLink: isLogin, clickable: isLogin, url: isLogin ? item.url : '' }));
 
     return (
